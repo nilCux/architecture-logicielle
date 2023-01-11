@@ -9,7 +9,7 @@ export class CanvasComponent implements OnInit {
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-  
+
   constructor() { }
 
   ngOnInit(): void {
@@ -25,39 +25,29 @@ export class CanvasComponent implements OnInit {
     this.mouseDownPos = [e.offsetX, e.offsetY];
   }
 
-  onUp(e : MouseEvent) {
+  onUp(e: MouseEvent) {
     this.isMouseDown = false;
-    var canvas = <HTMLCanvasElement>document.getElementById('drawzone');
-    if (canvas.getContext) {
-      var ctx = canvas.getContext('2d');
-      ctx.beginPath();
-      ctx.moveTo(...this.mouseDownPos);
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-    }
+    this.ctx.beginPath();
+    this.ctx.moveTo(...this.mouseDownPos);
+    this.ctx.lineTo(e.offsetX, e.offsetY);
+    this.ctx.stroke();
     this.mouseDownPos = [0, 0];
   }
 
   clearScreen() {
-    var canvas = <HTMLCanvasElement>document.getElementById('drawzone');
-    if (canvas.getContext) {
-      var ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e) {
     if (this.isMouseDown) {
+      /* TODO GHOST :)
       this.clearScreen();
-      var canvas = <HTMLCanvasElement>document.getElementById('drawzone');
-      if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-        ctx.beginPath();
-        ctx.moveTo(...this.mouseDownPos);
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
-      }
+      this.ctx.beginPath();
+      this.ctx.moveTo(...this.mouseDownPos);
+      this.ctx.lineTo(e.offsetX, e.offsetY);
+      this.ctx.stroke();
+      */
     }
   }
 
