@@ -39,12 +39,6 @@ export class CanvasComponent implements OnInit {
   // Number of lines to draw 
   nbLines: number = 0;
 
-  getWindowWidth() {
-    console.log(window.innerWidth)
-    return  document.documentElement.clientWidth;
-
-  }
-
   onDown(e: MouseEvent) {
     this.isMouseDown = true;
     this.startMouseDown = {
@@ -59,7 +53,6 @@ export class CanvasComponent implements OnInit {
   }
 
   onUp(e: MouseEvent) {
-    console.log('pos', this.endMouseDown)
     this.isMouseDown = false;
     this.nbLines++;
     this.drawLines();
