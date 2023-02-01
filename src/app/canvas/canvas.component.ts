@@ -38,8 +38,6 @@ export class CanvasComponent implements OnInit {
 
   // Array of lines to be drawn
   lines:Line[] = [] ;
-  // Number of lines to draw 
-  nbLines: number = 0;
 
   onDown(e: MouseEvent) {
     this.shapeService.onDown(e);
@@ -48,24 +46,27 @@ export class CanvasComponent implements OnInit {
       x: e.offsetX, 
       y: e.offsetY
     };
-
-    this.lines.push({
-      p1: this.startMouseDown,
-      p2: this.startMouseDown,
-    });
+    this.endMouseDown = {
+      x: e.offsetX, 
+      y: e.offsetY
+    };
   }
 
   onUp(e: MouseEvent) {
     this.isMouseDown = false;
-    this.nbLines++;
-    this.drawLines();
+    this.lines.push({
+        p1: this.startMouseDown,
+        p2: this.endMouseDown,
+      });
+    this.redraw();
   }
 
-  drawLines() {
+  // Redraw the previous lines 
+  redraw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.beginPath();
     this.ctx.setLineDash([]);
-    for (let i=0;i<this.nbLines;i++) {
+    for (let i=0;i<this.lines.length;i++) {
       this.ctx.moveTo(this.lines[i].p1.x, this.lines[i].p1.y);
       this.ctx.lineTo(this.lines[i].p2.x, this.lines[i].p2.y);
     }
@@ -75,7 +76,6 @@ export class CanvasComponent implements OnInit {
   clearScreen() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.lines.splice(0);
-    this.nbLines=0;
   }
 
   getMousePos(e: MouseEvent) {
@@ -88,14 +88,13 @@ export class CanvasComponent implements OnInit {
 
   onMouseMove(e) { 
     if (this.isMouseDown) {
-      // Draw old lines when tracing  
-      this.drawLines();
+      // Redraw previous lines when tracing  
+      this.redraw();
       
       // Get mouse position 
       this.endMouseDown = this.getMousePos(e);
  
       // Draw current ghost line 
-      this.lines.splice(this.nbLines,1,{ p1: this.startMouseDown, p2: this.endMouseDown});
       this.ctx.beginPath();
       this.ctx.setLineDash([5]);
       this.ctx.moveTo(this.startMouseDown.x, this.startMouseDown.y);
