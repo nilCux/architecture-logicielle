@@ -14,6 +14,8 @@ export class LineService extends DrawerService{
   
   override draw() {
     this.properties.backgroundColor
+    DrawerService.list.push("lol");
+    console.log(DrawerService.list);
     console.error("foisjoisjoisj")
   }
 
