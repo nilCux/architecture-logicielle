@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class Properties {
-
-  public color: string
-  public backgroundColor: string
-  public width: number
+export class Point {
 
   constructor() { }
+
+  public x: number;
+  public y: number;
 }

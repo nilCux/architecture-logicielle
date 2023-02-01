@@ -1,46 +1,20 @@
 import { Injectable } from '@angular/core';
-import { DrawerService } from './drawer.service';
-import { PropertiesService } from './properties.service';
-import { LineService } from './shapes/line.service';
-import { RectangleService } from './shapes/rectangle.service';
+import { Point } from './shapes/point.service'
+import { Properties } from './properties.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShapeService {
+export abstract class Shape {
+  protected properties: Properties
+  protected p1: Point
+  protected p2: Point
 
-  constructor(private propertiesService: PropertiesService) { }
-
-  public canvas: HTMLCanvasElement;
-  public ctx: CanvasRenderingContext2D;
-  public shape: string
-  public color: string
-  public currentDrawer: DrawerService
-
-  initCanvas(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    //default is a line :)
-    this.currentDrawer = new LineService(this.canvas, this.ctx, this.propertiesService);
-  }
-  
-  setShape(shape: string) {
-    this.shape = shape;
-    console.log(this.shape);
-    if (this.shape == "line") {
-    this.currentDrawer = new LineService(this.canvas, this.ctx, this.propertiesService);
-    } else if (this.shape == "rectangle") {
-      this.currentDrawer = new RectangleService(this.canvas, this.ctx, this.propertiesService);
-    } else if (this.shape == "circle") {
-      //this.currentDrawer = new CircleService(this.canvas, this.ctx, this.propertiesService);
-    }
+  constructor(p1:Point, p2:Point, properties: Properties) {
+    this.p1 = p1
+    this.p2 = p2
+    this.properties = properties
   }
 
-  onDown(event: MouseEvent) {
-    this.currentDrawer.draw()
-  }
-}
-
-export abstract class action {
-  
+  abstract drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties): void
 }

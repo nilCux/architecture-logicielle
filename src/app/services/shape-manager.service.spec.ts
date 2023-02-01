@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import LineService from './line.service';
+import { ShapeManagerService } from './shape-manager.service';
 
-describe('LineService', () => {
-  let service: LineService;
+describe('ShapeService', () => {
+  let service: ShapeManagerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LineService);
+    service = TestBed.inject(ShapeManagerService);
   });
 
   it('should be created', () => {
