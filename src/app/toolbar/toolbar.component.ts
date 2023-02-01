@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShapeService } from '../services/shape.service';
+import { ShapeManagerService } from '../services/shape-manager.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,7 +8,7 @@ import { ShapeService } from '../services/shape.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private shapeService: ShapeService) { }
+  constructor(private shapeService: ShapeManagerService) { }
 
   ngOnInit(): void {
   }

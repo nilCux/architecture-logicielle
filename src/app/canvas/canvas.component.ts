@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShapeService } from '../services/shape.service';
+import { ShapeManagerService } from '../services/shape-manager.service';
 
 type Point = {
   x: number;
@@ -21,7 +21,7 @@ export class CanvasComponent implements OnInit {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  constructor(private shapeService: ShapeService) { }
+  constructor(private shapeService: ShapeManagerService) { }
 
   ngOnInit(): void {
     this.canvas = <HTMLCanvasElement>document.getElementById('drawzone');
@@ -29,7 +29,7 @@ export class CanvasComponent implements OnInit {
     this.shapeService.initCanvas(this.canvas);
   }
 
-  // Indicates if mouse is down 
+  // Indicates if mouse is down
   isMouseDown: Boolean = false;
   // Start point when mouse is down
   startMouseDown: Point = {x: 0, y: 0};
@@ -38,14 +38,14 @@ export class CanvasComponent implements OnInit {
 
   // Array of lines to be drawn
   lines:Line[] = [] ;
-  // Number of lines to draw 
+  // Number of lines to draw
   nbLines: number = 0;
 
   onDown(e: MouseEvent) {
     this.shapeService.onDown(e);
     this.isMouseDown = true;
     this.startMouseDown = {
-      x: e.offsetX, 
+      x: e.offsetX,
       y: e.offsetY
     };
 
@@ -81,7 +81,7 @@ export class CanvasComponent implements OnInit {
   getMousePos(e: MouseEvent) {
     let rect = this.canvas.getBoundingClientRect();
     return {
-      x: (e.clientX - rect.left) / (rect.right - rect.left) * this.canvas.width, 
+      x: (e.clientX - rect.left) / (rect.right - rect.left) * this.canvas.width,
       y: (e.clientY - rect.top) / (rect.bottom - rect.top) * this.canvas.height
     }
   }
@@ -89,13 +89,13 @@ export class CanvasComponent implements OnInit {
   onMouseMove(e) {
 
     if (this.isMouseDown) {
-      // Draw old lines when tracing  
+      // Draw old lines when tracing
       this.drawLines();
-      
-      // Get mouse position 
+
+      // Get mouse position
       this.endMouseDown = this.getMousePos(e);
- 
-      // Draw current ghost line 
+
+      // Draw current ghost line
       this.lines.splice(this.nbLines,1,{ p1: this.startMouseDown, p2: this.endMouseDown});
       this.ctx.beginPath();
       this.ctx.setLineDash([5]);
