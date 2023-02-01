@@ -86,8 +86,7 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  onMouseMove(e) {
-
+  onMouseMove(e) { 
     if (this.isMouseDown) {
       // Draw old lines when tracing  
       this.drawLines();
@@ -102,6 +101,12 @@ export class CanvasComponent implements OnInit {
       this.ctx.moveTo(this.startMouseDown.x, this.startMouseDown.y);
       this.ctx.lineTo(this.endMouseDown.x, this.endMouseDown.y);
       this.ctx.stroke();
+    }
+  }
+
+  mouseOut(e) {
+    if (this.isMouseDown) {
+      this.onUp(e);
     }
   }
 }
