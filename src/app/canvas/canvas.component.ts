@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ShapeService } from '../services/shape.service';
 
 type Point = {
   x: number;
@@ -20,11 +21,12 @@ export class CanvasComponent implements OnInit {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  constructor() { }
+  constructor(private shapeService: ShapeService) { }
 
   ngOnInit(): void {
     this.canvas = <HTMLCanvasElement>document.getElementById('drawzone');
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+    this.shapeService.initCanvas(this.canvas);
   }
 
   // Indicates if mouse is down 
@@ -40,6 +42,7 @@ export class CanvasComponent implements OnInit {
   nbLines: number = 0;
 
   onDown(e: MouseEvent) {
+    this.shapeService.onDown(e);
     this.isMouseDown = true;
     this.startMouseDown = {
       x: e.offsetX, 
