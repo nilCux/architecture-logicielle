@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DrawerService } from '../drawer.service';
+import { PropertiesService } from '../properties.service';
 
 @Injectable({
   providedIn: 'root'
