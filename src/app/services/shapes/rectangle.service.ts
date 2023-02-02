@@ -10,8 +10,9 @@ export class Rectangle extends Shape {
 
   override drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties) {
 
-    console.error("je me draw moi meme, je suis une ligne")
+    console.error("je me draw moi meme, je suis un rectangle")
     ctx.moveTo(this.p1.x, this.p1.y);
     ctx.lineTo(this.p2.x, this.p2.y);
+    ctx.stroke();
   }
 }

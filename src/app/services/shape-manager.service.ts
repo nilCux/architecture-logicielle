@@ -10,8 +10,8 @@ import { Rectangle } from './shapes/rectangle.service';
 })
 export class ShapeManagerService {
 
-  constructor(private propertiesService: Properties, private drawer: DrawerService) { }
-
+  constructor(private propertiesService: Properties) { }
+  private drawer: DrawerService;
   public canvas: HTMLCanvasElement;
   public ctx: CanvasRenderingContext2D;
   public shape: string
@@ -32,6 +32,22 @@ export class ShapeManagerService {
 
   onDown(event: MouseEvent) {
     this.drawer.onDown(event, this.shape)
+  }
+
+  clearScreen() {
+    this.drawer.clearScreen()
+  }
+
+  onUp(e: MouseEvent) {
+    this.drawer.onUp(e);
+  }
+
+  onMouseMove(e: MouseEvent) {
+    this.drawer.onMouseMove(e);
+  }
+
+  mouseOut(e: MouseEvent) {
+    this.drawer.mouseOut(e);
   }
 }
 
