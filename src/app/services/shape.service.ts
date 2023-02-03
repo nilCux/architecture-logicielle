@@ -32,7 +32,7 @@ export abstract class Shape {
     return this.p2
   }
   
-  abstract drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties): void
+  abstract drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D): void
 
-  abstract drawPhantom(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties): void
+  abstract drawPhantom(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D): void
 }

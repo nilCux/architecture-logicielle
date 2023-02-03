@@ -5,6 +5,7 @@ import { Point } from './shapes/point.service';
 import { Rectangle } from './shapes/rectangle.service'
 import { Circle } from './shapes/circle.service'
 import { Shape } from './shape.service'
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +14,17 @@ import { Shape } from './shape.service'
 export class DrawerService {
 
   // Indicates if mouse is down
-  public isMouseDown: Boolean = false;
+  private isMouseDown: Boolean = false;
   // Start point when mouse is down
-  public startMouseDown: Point = {x: 0, y: 0};
+  private startMouseDown: Point = {x: 0, y: 0};
   // End point when mouse is down
-  public endMouseDown: Point = {x: 0, y: 0};
+  private endMouseDown: Point = {x: 0, y: 0};
 
   // Array of shapes to be drawn
-  public shapes:Shape[] = [];
-  public deleted:Shape[] = []
+  private shapes:Shape[] = [];
+  private deleted:Shape[] = []
 
   // Current shape to be drawn
-  public currentShape: string = "line";
-
   private currentShapeInstance: Shape;
 
   constructor(protected canvas: HTMLCanvasElement, protected ctx: CanvasRenderingContext2D, protected properties: Properties) {
@@ -33,19 +32,18 @@ export class DrawerService {
 
    GlobalDraw(){
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.beginPath();
-    this.ctx.setLineDash([]);
     console.warn(this.shapes)
     for (let i=0;i<this.shapes.length;i++) {
-      this.shapes[i].drawSelf(this.canvas,this.ctx,this.properties);
+      this.shapes[i].drawSelf(this.canvas,this.ctx);
     }
-    this.ctx.stroke();
+
+    this.ctx.strokeStyle = this.properties.getColor();
+    this.ctx.lineWidth = this.properties.getWidth();
   }
 
   setCurrentShape(shape: string) {
-    this.currentShape = shape;
     
-    switch (this.currentShape) {
+    switch (shape) {
       case "line":
         this.currentShapeInstance = new Line(new Point(), new Point(), this.properties);
         break;
@@ -85,22 +83,7 @@ export class DrawerService {
   onUp(e: MouseEvent) {
     if(this.isMouseDown) {
       this.isMouseDown = false;
-
-      let copy = null;
-
-      switch (this.currentShape) {
-        case "line":
-          copy = new Line(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(), this.properties);
-          break;
-        case "rectangle":
-          copy = new Rectangle(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(),  this.properties);
-          break;
-        case "circle":
-          copy = new Circle(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(),  this.properties);
-          break;
-      }
-
-      this.shapes.push(copy);
+      this.shapes.push(_.cloneDeep(this.currentShapeInstance));
       this.GlobalDraw();
     }
   }
@@ -120,7 +103,7 @@ export class DrawerService {
 
       this.currentShapeInstance.updateEndPoint(this.endMouseDown);
 
-      this.currentShapeInstance.drawPhantom(this.canvas, this.ctx, this.properties);
+      this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
       
     }
   }
