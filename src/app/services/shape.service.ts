@@ -16,5 +16,23 @@ export abstract class Shape {
     this.properties = properties
   }
 
+  updateStartPoint(p: Point) {
+    this.p1 = p
+  }
+
+  updateEndPoint(p: Point) {
+    this.p2 = p
+  }
+
+  getStartPoint() {
+    return this.p1
+  }
+
+  getEndPoint() {
+    return this.p2
+  }
+  
   abstract drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties): void
+
+  abstract drawPhantom(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D,properties: Properties): void
 }

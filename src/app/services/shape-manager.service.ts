@@ -14,7 +14,6 @@ export class ShapeManagerService {
   private drawer: DrawerService;
   public canvas: HTMLCanvasElement;
   public ctx: CanvasRenderingContext2D;
-  public shape: string
   public color: string
   public width: number = 10;
 
@@ -22,17 +21,16 @@ export class ShapeManagerService {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     //default is a line :)
-    this.shape = "line"
     this.drawer = new DrawerService(this.canvas, this.ctx, this.propertiesService);
+    this.drawer.setCurrentShape("line");
   }
 
   setShape(shape: string) {
-    this.shape = shape
-    console.log(this.shape)
+    this.drawer.setCurrentShape(shape)
   }
 
   onDown(event: MouseEvent) {
-    this.drawer.onDown(event, this.shape)
+    this.drawer.onDown(event)
   }
 
   clearScreen() {
