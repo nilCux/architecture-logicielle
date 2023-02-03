@@ -16,6 +16,7 @@ export class ShapeManagerService {
   public ctx: CanvasRenderingContext2D;
   public shape: string
   public color: string
+  public width: number = 10;
 
   initCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
