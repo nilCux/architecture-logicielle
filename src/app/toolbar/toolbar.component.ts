@@ -8,13 +8,21 @@ import { ShapeManagerService } from '../services/shape-manager.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private shapeService: ShapeManagerService) { }
+  constructor(private shapeManager: ShapeManagerService) { }
 
   ngOnInit(): void {
   }
 
   changeShape(shape: string) {
-    this.shapeService.setShape(shape);
+    this.shapeManager.setShape(shape);
+  }
+
+  changeColor(color: string) {
+    this.shapeManager.color = color;
+  }
+
+  changeWidth(width: number) {
+    this.shapeManager.width = width;
   }
 
 }
