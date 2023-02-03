@@ -18,11 +18,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   changeColor(color: string) {
-    this.shapeManager.color = color;
+    this.shapeManager.setColor(color);
   }
 
   changeWidth(width: number) {
-    this.shapeManager.width = width;
+    this.shapeManager.setWidth(width);
   }
 
 }

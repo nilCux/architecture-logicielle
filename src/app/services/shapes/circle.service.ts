@@ -14,6 +14,7 @@ export class Circle extends Shape {
     let radius = Math.sqrt(Math.pow(this.p2.x-this.p1.x,2)+Math.pow(this.p2.y-this.p1.y,2))
     ctx.moveTo( this.p1.x + radius, this.p1.y );
     ctx.arc(this.p1.x, this.p1.y, radius, 0, 2 * Math.PI);
-    ctx.stroke();
+    ctx.lineWidth = properties.width;
+    ctx.strokeStyle = properties.color;
   }
 }

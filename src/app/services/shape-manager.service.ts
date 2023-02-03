@@ -15,8 +15,6 @@ export class ShapeManagerService {
   public canvas: HTMLCanvasElement;
   public ctx: CanvasRenderingContext2D;
   public shape: string
-  public color: string
-  public width: number = 10;
 
   initCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -29,6 +27,16 @@ export class ShapeManagerService {
   setShape(shape: string) {
     this.shape = shape
     console.log(this.shape)
+  }
+
+  setColor(color: string) {
+    this.propertiesService.color = color;
+    console.log('color', color)
+  }
+
+  setWidth(width: number) {
+    this.propertiesService.width = width;
+    console.log('width', width)
   }
 
   onDown(event: MouseEvent) {

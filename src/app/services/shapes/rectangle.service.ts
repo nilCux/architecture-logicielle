@@ -14,6 +14,7 @@ export class Rectangle extends Shape {
     let width = this.p2.x - this.p1.x;
     let height = this.p2.y - this.p1.y;
     ctx.rect(this.p1.x, this.p1.y, width, height);
-    ctx.stroke();
+    ctx.lineWidth = properties.width;
+    ctx.strokeStyle = properties.color;
   }
 }

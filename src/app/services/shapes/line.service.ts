@@ -14,5 +14,7 @@ export class Line extends Shape {
     console.error("je me draw moi meme, je suis une ligne")
     ctx.moveTo(this.p1.x, this.p1.y);
     ctx.lineTo(this.p2.x, this.p2.y);
+    ctx.lineWidth = properties.width;
+    ctx.strokeStyle = properties.color;
   }
 }
