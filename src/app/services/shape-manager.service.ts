@@ -20,13 +20,12 @@ export class ShapeManagerService {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     //default is a line :)
-    this.shape = "line"
     this.drawer = new DrawerService(this.canvas, this.ctx, this.propertiesService);
+    this.drawer.setCurrentShape("line");
   }
 
   setShape(shape: string) {
-    this.shape = shape
-    console.log(this.shape)
+    this.drawer.setCurrentShape(shape)
   }
 
   setColor(color: string) {
@@ -40,7 +39,7 @@ export class ShapeManagerService {
   }
 
   onDown(event: MouseEvent) {
-    this.drawer.onDown(event, this.shape)
+    this.drawer.onDown(event)
   }
 
   clearScreen() {

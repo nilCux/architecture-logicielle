@@ -25,6 +25,8 @@ export class DrawerService {
   // Current shape to be drawn
   public currentShape: string = "line";
 
+  private currentShapeInstance: Shape;
+
   constructor(protected canvas: HTMLCanvasElement, protected ctx: CanvasRenderingContext2D, protected properties: Properties) {
   }
 
@@ -39,9 +41,26 @@ export class DrawerService {
     this.ctx.stroke();
   }
 
-  onDown(e: MouseEvent, shape: string) {
-    this.currentShape = shape
+  setCurrentShape(shape: string) {
+    this.currentShape = shape;
+    
+    switch (this.currentShape) {
+      case "line":
+        this.currentShapeInstance = new Line(new Point(), new Point(), this.properties);
+        break;
+      case "rectangle":
+        this.currentShapeInstance = new Rectangle(new Point(), new Point(), this.properties);
+        break;
+      case "circle":
+        this.currentShapeInstance = new Circle(new Point(), new Point(), this.properties);
+        break;
+    }
+
+  }
+
+  onDown(e: MouseEvent) {
     this.isMouseDown = true;
+    
     this.startMouseDown = {
       x: e.offsetX,
       y: e.offsetY
@@ -50,25 +69,37 @@ export class DrawerService {
       x: e.offsetX,
       y: e.offsetY
     }
+
+    this.currentShapeInstance.updateStartPoint({
+      x: e.offsetX,
+      y: e.offsetY
+    });
+
+    this.currentShapeInstance.updateEndPoint({
+      x: e.offsetX,
+      y: e.offsetY
+    });
   }
 
   onUp(e: MouseEvent) {
     if(this.isMouseDown) {
       this.isMouseDown = false;
-      let shapeInstace
+
+      let copy = null;
+
       switch (this.currentShape) {
         case "line":
-          shapeInstace = new Line(this.startMouseDown, this.endMouseDown, this.properties);
+          copy = new Line(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(), this.properties);
           break;
         case "rectangle":
-          shapeInstace = new Rectangle(this.startMouseDown, this.endMouseDown, this.properties);
+          copy = new Rectangle(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(),  this.properties);
           break;
         case "circle":
-          shapeInstace = new Circle(this.startMouseDown, this.endMouseDown, this.properties);
+          copy = new Circle(this.currentShapeInstance.getStartPoint(), this.currentShapeInstance.getEndPoint(),  this.properties);
           break;
       }
 
-      this.shapes.push(shapeInstace);
+      this.shapes.push(copy);
       this.GlobalDraw();
     }
   }
@@ -86,12 +117,10 @@ export class DrawerService {
       // Get mouse position
       this.endMouseDown = this.getMousePos(e);
 
-      // Draw current ghost line
-      this.ctx.beginPath();
-      this.ctx.setLineDash([5]);
-      this.ctx.moveTo(this.startMouseDown.x, this.startMouseDown.y);
-      this.ctx.lineTo(this.endMouseDown.x, this.endMouseDown.y);
-      this.ctx.stroke();
+      this.currentShapeInstance.updateEndPoint(this.endMouseDown);
+
+      this.currentShapeInstance.drawPhantom(this.canvas, this.ctx, this.properties);
+      
     }
   }
 
