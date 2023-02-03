@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ShapeManagerService } from '../services/shape-manager.service';
 
 type Point = {
@@ -49,4 +49,19 @@ export class CanvasComponent implements OnInit {
   mouseOut(e: MouseEvent) {
     this.shapeManager.mouseOut(e);
   }
+
+  @HostListener('document:keydown.control.z', ['$event'])
+  undoLast() {
+    this.shapeManager.undoLast();
+  }
+
+  @HostListener('document:keydown.control.y', ['$event'])
+  redoLast() {
+    this.shapeManager.redoLast();
+  }
+
+  dummy() {
+    console.log("HELLO")
+  }
+
 }

@@ -57,6 +57,14 @@ export class ShapeManagerService {
   mouseOut(e: MouseEvent) {
     this.drawer.mouseOut(e);
   }
+
+  undoLast() {
+    this.drawer.undoLast();
+  }
+
+  redoLast() {
+    this.drawer.redoLast();
+  }
 }
 
 export abstract class action {

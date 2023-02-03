@@ -21,6 +21,7 @@ export class DrawerService {
 
   // Array of shapes to be drawn
   public shapes:Shape[] = [];
+  public deleted:Shape[] = []
 
   // Current shape to be drawn
   public currentShape: string = "line";
@@ -127,6 +128,21 @@ export class DrawerService {
   mouseOut(e: MouseEvent) {
     if(this.isMouseDown) {
       this.onUp(e);
+    }
+  }
+
+  undoLast() {
+    if (this.shapes.length != 0) {
+      let last:Shape = this.shapes.pop();
+      this.deleted.push(last);
+      this.GlobalDraw();
+    }
+  }
+
+  redoLast() {
+    if (this.deleted.length != 0){
+      this.shapes.push(this.deleted.pop());
+      this.GlobalDraw();
     }
   }
 
