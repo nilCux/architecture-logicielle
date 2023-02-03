@@ -14,8 +14,7 @@ export class ShapeManagerService {
   private drawer: DrawerService;
   public canvas: HTMLCanvasElement;
   public ctx: CanvasRenderingContext2D;
-  public color: string
-  public width: number = 10;
+  public shape: string
 
   initCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -27,6 +26,16 @@ export class ShapeManagerService {
 
   setShape(shape: string) {
     this.drawer.setCurrentShape(shape)
+  }
+
+  setColor(color: string) {
+    this.propertiesService.color = color;
+    console.log('color', color)
+  }
+
+  setWidth(width: number) {
+    this.propertiesService.width = width;
+    console.log('width', width)
   }
 
   onDown(event: MouseEvent) {
