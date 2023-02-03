@@ -16,4 +16,8 @@ export class Rectangle extends Shape {
     ctx.rect(this.p1.x, this.p1.y, width, height);
     ctx.stroke();
   }
+
+  override drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, properties: Properties): void {
+    throw new Error('Method not implemented.');
+  }
 }
