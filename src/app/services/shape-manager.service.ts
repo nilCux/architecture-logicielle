@@ -12,9 +12,8 @@ export class ShapeManagerService {
 
   constructor(private propertiesService: Properties) { }
   private drawer: DrawerService;
-  public canvas: HTMLCanvasElement;
-  public ctx: CanvasRenderingContext2D;
-  public shape: string
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
 
   initCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -22,6 +21,8 @@ export class ShapeManagerService {
     //default is a line :)
     this.drawer = new DrawerService(this.canvas, this.ctx, this.propertiesService);
     this.drawer.setCurrentShape("line");
+    this.propertiesService.updateColor("black");
+    this.propertiesService.updateWidth(1);
   }
 
   setShape(shape: string) {
@@ -29,12 +30,12 @@ export class ShapeManagerService {
   }
 
   setColor(color: string) {
-    this.propertiesService.color = color;
+    this.propertiesService.updateColor(color);
     console.log('color', color)
   }
 
   setWidth(width: number) {
-    this.propertiesService.width = width;
+    this.propertiesService.updateWidth(width);
     console.log('width', width)
   }
 
