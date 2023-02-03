@@ -21,7 +21,7 @@ export class ShapeManagerService {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     //default is a line :)
-    this.shape = "line"
+    this.shape = "rectangle"
     this.drawer = new DrawerService(this.canvas, this.ctx, this.propertiesService);
   }
 
