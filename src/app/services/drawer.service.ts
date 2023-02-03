@@ -53,22 +53,24 @@ export class DrawerService {
   }
 
   onUp(e: MouseEvent) {
-    this.isMouseDown = false;
-    let shapeInstace
-    switch (this.currentShape) {
-      case "line":
-        shapeInstace = new Line(this.startMouseDown, this.endMouseDown, this.properties);
-        break;
-      case "rectangle":
-        shapeInstace = new Rectangle(this.startMouseDown, this.endMouseDown, this.properties);
-        break;
-      case "circle":
-        shapeInstace = new Circle(this.startMouseDown, this.endMouseDown, this.properties);
-        break;
-    }
+    if(this.isMouseDown) {
+      this.isMouseDown = false;
+      let shapeInstace
+      switch (this.currentShape) {
+        case "line":
+          shapeInstace = new Line(this.startMouseDown, this.endMouseDown, this.properties);
+          break;
+        case "rectangle":
+          shapeInstace = new Rectangle(this.startMouseDown, this.endMouseDown, this.properties);
+          break;
+        case "circle":
+          shapeInstace = new Circle(this.startMouseDown, this.endMouseDown, this.properties);
+          break;
+      }
 
-    this.shapes.push(shapeInstace);
-    this.GlobalDraw();
+      this.shapes.push(shapeInstace);
+      this.GlobalDraw();
+    }
   }
 
   clearScreen() {
