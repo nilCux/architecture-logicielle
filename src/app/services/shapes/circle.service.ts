@@ -17,6 +17,11 @@ export class Circle extends Shape {
   }
 
   override drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, properties: Properties): void {
-    throw new Error('Method not implemented.');
+    ctx.beginPath();
+    ctx.setLineDash([5]);
+    let radius = Math.sqrt(Math.pow(this.p2.x-this.p1.x,2)+Math.pow(this.p2.y-this.p1.y,2))
+    ctx.moveTo( this.p1.x + radius, this.p1.y );
+    ctx.arc(this.p1.x, this.p1.y, radius, 0, 2 * Math.PI);
+    ctx.stroke();
   }
 }
