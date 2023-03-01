@@ -17,10 +17,6 @@ export class ToolbarComponent implements OnInit {
     this.shapeManager.setCurrentShape(shape);
   }
 
-  changeColor(color: string) {
-    this.shapeManager.setColor(color);
-  }
-
   changeWidth(width: number) {
     this.shapeManager.setWidth(width);
   }
