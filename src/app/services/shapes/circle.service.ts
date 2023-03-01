@@ -9,7 +9,7 @@ import { Shape } from '../shape.service'
 export class Circle extends Shape {
   override drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D) {
 
-    console.error("je me draw moi meme, je suis un cercle")
+    console.log("je me draw moi meme, je suis un cercle")
     let radius = Math.sqrt(Math.pow(this.p2.x-this.p1.x,2)+Math.pow(this.p2.y-this.p1.y,2))
     ctx.beginPath();
     ctx.setLineDash([]);

@@ -26,8 +26,10 @@ export class DrawerService {
 
   // Current shape to be drawn
   private currentShapeInstance: Shape;
+  protected canvas: HTMLCanvasElement; 
+  protected ctx: CanvasRenderingContext2D;
 
-  constructor(protected canvas: HTMLCanvasElement, protected ctx: CanvasRenderingContext2D, protected properties: Properties) {
+  constructor( private propertiesService: Properties ) {
   }
 
    GlobalDraw(){
@@ -37,21 +39,39 @@ export class DrawerService {
       this.shapes[i].drawSelf(this.canvas,this.ctx);
     }
 
-    this.ctx.strokeStyle = this.properties.getColor();
-    this.ctx.lineWidth = this.properties.getWidth();
+    this.ctx.strokeStyle = this.propertiesService.getColor();
+    this.ctx.lineWidth = this.propertiesService.getWidth();
+  }
+
+  initCanvas(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.setCurrentShape("line");
+    this.propertiesService.updateColor("black");
+    this.propertiesService.updateWidth(1);
+  }
+
+  setColor(color: string) {
+    this.propertiesService.updateColor(color);
+    console.log('color', color)
+  }
+
+  setWidth(width: number) {
+    this.propertiesService.updateWidth(width);
+    console.log('width', width)
   }
 
   setCurrentShape(shape: string) {
     
     switch (shape) {
       case "line":
-        this.currentShapeInstance = new Line(new Point(), new Point(), this.properties);
+        this.currentShapeInstance = new Line(new Point(), new Point(), this.propertiesService);
         break;
       case "rectangle":
-        this.currentShapeInstance = new Rectangle(new Point(), new Point(), this.properties);
+        this.currentShapeInstance = new Rectangle(new Point(), new Point(), this.propertiesService);
         break;
       case "circle":
-        this.currentShapeInstance = new Circle(new Point(), new Point(), this.properties);
+        this.currentShapeInstance = new Circle(new Point(), new Point(), this.propertiesService);
         break;
     }
 
@@ -93,7 +113,7 @@ export class DrawerService {
     this.shapes.splice(0);
   }
 
-  onMouseMove(e) {
+  onMouseMove(e: MouseEvent) {
     if (this.isMouseDown) {
       // Draw old lines when tracing
       this.GlobalDraw();
