@@ -1,5 +1,15 @@
 <nav class="navbar">
   <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Navbar</span>
+    <div>
+      <button type="button" class="btn" (click)="undoLast()">
+        <i class="bi bi-arrow-left fs-3"></i>
+      </button>
+      <button type="button" class="btn" (click)="redoLast()">
+        <i class="bi bi-arrow-right fs-3"></i>
+      </button>
+    </div>
+    <div class="nav navbar-nav navbar-center">
+      <span class="navbar-brand mb-0 h1 fs-3">Navbar</span>
+    </div>
   </div>
 </nav>
