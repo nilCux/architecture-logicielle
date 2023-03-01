@@ -8,6 +8,7 @@ import { Shape } from './shape.service'
 import * as _ from 'lodash';
 import { Triangle } from './shapes/triangle.service';
 import { Hexagon } from './shapes/hexagon.service';
+import { Arrow } from './shapes/arrow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,9 @@ export class DrawerService {
         break;
       case "hexagon":
         this.currentShapeInstance = new Hexagon(new Point(), new Point(), this.propertiesService);
+        break;
+      case "arrow":
+        this.currentShapeInstance = new Arrow(new Point(), new Point(), this.propertiesService);
         break;
     }
 
