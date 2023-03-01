@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DrawerService } from '../drawer.service';
-import { Properties } from '../properties.service';
 import { Shape } from '../shape.service'
 
 @Injectable({

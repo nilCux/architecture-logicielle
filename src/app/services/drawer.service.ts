@@ -6,6 +6,7 @@ import { Rectangle } from './shapes/rectangle.service'
 import { Circle } from './shapes/circle.service'
 import { Shape } from './shape.service'
 import * as _ from 'lodash';
+import { Triangle } from './shapes/triangle.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,27 +17,27 @@ export class DrawerService {
   // Indicates if mouse is down
   private isMouseDown: Boolean = false;
   // Start point when mouse is down
-  private startMouseDown: Point = {x: 0, y: 0};
+  private startMouseDown: Point = { x: 0, y: 0 };
   // End point when mouse is down
-  private endMouseDown: Point = {x: 0, y: 0};
+  private endMouseDown: Point = { x: 0, y: 0 };
 
   // Array of shapes to be drawn
-  private shapes:Shape[] = [];
-  private deleted:Shape[] = []
+  private shapes: Shape[] = [];
+  private deleted: Shape[] = []
 
   // Current shape to be drawn
   private currentShapeInstance: Shape;
-  protected canvas: HTMLCanvasElement; 
+  protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
 
-  constructor( private propertiesService: Properties ) {
+  constructor(private propertiesService: Properties) {
   }
 
-   GlobalDraw(){
+  GlobalDraw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     console.warn(this.shapes)
-    for (let i=0;i<this.shapes.length;i++) {
-      this.shapes[i].drawSelf(this.canvas,this.ctx);
+    for (let i = 0; i < this.shapes.length; i++) {
+      this.shapes[i].drawSelf(this.canvas, this.ctx);
     }
 
     this.ctx.strokeStyle = this.propertiesService.getColor();
@@ -62,7 +63,7 @@ export class DrawerService {
   }
 
   setCurrentShape(shape: string) {
-    
+
     switch (shape) {
       case "line":
         this.currentShapeInstance = new Line(new Point(), new Point(), this.propertiesService);
@@ -73,13 +74,16 @@ export class DrawerService {
       case "circle":
         this.currentShapeInstance = new Circle(new Point(), new Point(), this.propertiesService);
         break;
+      case "triangle":
+        this.currentShapeInstance = new Triangle(new Point(), new Point(), this.propertiesService);
+        break;
     }
 
   }
 
   onDown(e: MouseEvent) {
     this.isMouseDown = true;
-    
+
     this.startMouseDown = {
       x: e.offsetX,
       y: e.offsetY
@@ -101,7 +105,7 @@ export class DrawerService {
   }
 
   onUp(e: MouseEvent) {
-    if(this.isMouseDown) {
+    if (this.isMouseDown) {
       this.isMouseDown = false;
       this.shapes.push(_.cloneDeep(this.currentShapeInstance));
       this.GlobalDraw();
@@ -124,26 +128,26 @@ export class DrawerService {
       this.currentShapeInstance.updateEndPoint(this.endMouseDown);
 
       this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
-      
+
     }
   }
 
   mouseOut(e: MouseEvent) {
-    if(this.isMouseDown) {
+    if (this.isMouseDown) {
       this.onUp(e);
     }
   }
 
   undoLast() {
     if (this.shapes.length != 0) {
-      let last:Shape = this.shapes.pop();
+      let last: Shape = this.shapes.pop();
       this.deleted.push(last);
       this.GlobalDraw();
     }
   }
 
   redoLast() {
-    if (this.deleted.length != 0){
+    if (this.deleted.length != 0) {
       this.shapes.push(this.deleted.pop());
       this.GlobalDraw();
     }
