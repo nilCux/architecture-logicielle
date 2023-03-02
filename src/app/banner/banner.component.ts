@@ -20,4 +20,12 @@ export class BannerComponent implements OnInit {
   redoLast() {
     this.shapeManager.redoLast();
   }
+
+  downloadCanvas() {
+    this.shapeManager.downloadCanvas();
+  }
+
+  uploadCanvas(e:any) {
+    this.shapeManager.uploadCanvas(e);
+  }
 }

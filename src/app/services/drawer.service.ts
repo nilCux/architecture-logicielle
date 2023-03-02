@@ -32,11 +32,18 @@ export class DrawerService {
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
 
+  // Canvas to be load
+  private loadCanvas: HTMLImageElement;
+
   constructor(private propertiesService: Properties) {
   }
 
-  GlobalDraw() {
+  GlobalDraw() {    
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    if(this.loadCanvas !== undefined)
+      this.ctx.drawImage(this.loadCanvas,0,0)
+
     console.warn(this.shapes)
     for (let i = 0; i < this.shapes.length; i++) {
       this.shapes[i].drawSelf(this.canvas, this.ctx);
@@ -123,6 +130,7 @@ export class DrawerService {
   clearScreen() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.shapes.splice(0);
+    this.loadCanvas = undefined;
   }
 
   onMouseMove(e: MouseEvent) {
@@ -159,6 +167,27 @@ export class DrawerService {
       this.shapes.push(this.deleted.pop());
       this.GlobalDraw();
     }
+  }
+
+  downloadCanvas() {
+    const createEl = document.createElement('a');
+    createEl.href = this.canvas.toDataURL();
+    createEl.download = "canvas";
+    createEl.click();
+    createEl.remove();
+  }
+
+  uploadCanvas(e:any) {
+    this.clearScreen()
+    let reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+
+    reader.onload = readerEvent => {
+      let content = readerEvent.target.result.toString();
+      this.loadCanvas = new Image;
+      this.loadCanvas.src = content;
+      this.ctx.drawImage(this.loadCanvas,0,0);
+   }
   }
 
   private getMousePos(e: MouseEvent) {
