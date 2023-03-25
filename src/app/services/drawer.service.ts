@@ -57,7 +57,7 @@ export class DrawerService {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.setCurrentShape("line");
-    this.propertiesService.updateColor("black");
+    this.propertiesService.updateColor("rgba(0,19,255,1)");
     this.propertiesService.updateWidth(1);
   }
 

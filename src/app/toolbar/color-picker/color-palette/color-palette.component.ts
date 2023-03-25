@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Input, Output, SimpleChanges, OnChanges, EventEmitter, HostListener } from '@angular/core';
+import { Component, AfterViewInit, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core';
 import { DrawerService } from '../../../services/drawer.service';
 
 @Component({
@@ -10,53 +10,46 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   @Input()
   hue: string;
 
-  @ViewChild('canvas')
-  canvas: ElementRef<HTMLCanvasElement>;
-
+  private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-
   private mousedown: boolean = false;
-
-  private color: string='black';
-
-  public selectedPosition: { x: number; y: number }={x:125, y:25};
+  private color: string;
+  public selectedPosition: {x: number; y: number};
 
   constructor(private shapeManager: DrawerService) { }
 
   ngAfterViewInit() {
+    this.canvas = <HTMLCanvasElement>document.getElementById('color-palette');
+    this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+    this.selectedPosition = {x:this.canvas.width-20, y:20};
     this.draw();
   }
 
   draw() {
-    if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d');
-    }
-    const width = this.canvas.nativeElement.width;
-    const height = this.canvas.nativeElement.height;
+    const selectColorHeight = 10;
 
-    this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
-    this.ctx.fillRect(0, 0, width, height);
+    this.ctx.fillStyle = this.hue || 'rgba(0,19,255,1)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const whiteGrad = this.ctx.createLinearGradient(0, 0, width, 0);
+    const whiteGrad = this.ctx.createLinearGradient(0, 0, this.canvas.width, 0);
     whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
     whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
 
     this.ctx.fillStyle = whiteGrad;
-    this.ctx.fillRect(0, 0, width, height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const blackGrad = this.ctx.createLinearGradient(0, 0, 0, height);
+    const blackGrad = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
     blackGrad.addColorStop(0, 'rgba(0,0,0,0)');
     blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
 
     this.ctx.fillStyle = blackGrad;
-    this.ctx.fillRect(0, 0, width, height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     if (this.selectedPosition) {
       this.ctx.strokeStyle = 'white';
-      this.ctx.fillStyle = 'white';
       this.ctx.beginPath();
-      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, 10, 0, 2 * Math.PI);
-      this.ctx.lineWidth = 5;
+      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, selectColorHeight, 0, 2 * Math.PI);
+      this.ctx.lineWidth = 3;
       this.ctx.stroke();
     }
   }

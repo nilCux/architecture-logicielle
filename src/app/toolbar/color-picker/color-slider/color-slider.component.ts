@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Output, HostListener, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Output, HostListener, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-color-slider',
@@ -6,30 +6,28 @@ import { Component, ViewChild, ElementRef, AfterViewInit, Output, HostListener, 
   styleUrls: ['./color-slider.component.sass']
 })
 export class ColorSliderComponent implements AfterViewInit {
-  @ViewChild('canvas')
-  canvas: ElementRef<HTMLCanvasElement>;
-
   @Output()
   color: EventEmitter<string> = new EventEmitter();
 
+  private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean = false;
-  private selectedHeight: number;
+  private selectedWidth: number;
 
   ngAfterViewInit() {
+    this.canvas = <HTMLCanvasElement>document.getElementById('color-slider');
+    this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+    this.selectedWidth = this.canvas.width*2/3;
     this.draw();
   }
 
   draw() {
-    if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d');
-    }
-    const width = this.canvas.nativeElement.width;
-    const height = this.canvas.nativeElement.height;
+    const gradientHeight = 10;
+    const selectColorHeight = 15;
 
-    this.ctx.clearRect(0, 0, width, height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
+    const gradient = this.ctx.createLinearGradient(0, 0, this.canvas.width, 0);
     gradient.addColorStop(0, 'rgba(255, 0, 0, 1)');
     gradient.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
     gradient.addColorStop(0.34, 'rgba(0, 255, 0, 1)');
@@ -39,20 +37,19 @@ export class ColorSliderComponent implements AfterViewInit {
     gradient.addColorStop(1, 'rgba(255, 0, 0, 1)');
 
     this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
+    this.ctx.rect(0, (this.canvas.height-gradientHeight)/2, this.canvas.width, gradientHeight);
 
     this.ctx.fillStyle = gradient;
     this.ctx.fill();
     this.ctx.closePath();
 
-    if (this.selectedHeight) {
-      this.ctx.beginPath();
-      this.ctx.strokeStyle = 'white';
-      this.ctx.lineWidth = 5;
-      this.ctx.rect(0, this.selectedHeight - 5, width, 10);
-      this.ctx.stroke();
-      this.ctx.closePath();
-    }
+    this.ctx.strokeStyle = 'white';
+    this.ctx.fillStyle = this.getColorAtPosition(this.selectedWidth, this.canvas.height/2);
+    this.ctx.beginPath();
+    this.ctx.arc(this.selectedWidth, this.canvas.height/2, selectColorHeight, 0, 2 * Math.PI);
+    this.ctx.lineWidth = 3;
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   @HostListener('window:mouseup', ['$event'])
@@ -62,14 +59,14 @@ export class ColorSliderComponent implements AfterViewInit {
 
   onMouseDown(evt: MouseEvent) {
     this.mousedown = true;
-    this.selectedHeight = evt.offsetY;
+    this.selectedWidth = evt.offsetX;
     this.draw();
     this.emitColor(evt.offsetX, evt.offsetY);
   }
 
   onMouseMove(evt: MouseEvent) {
     if (this.mousedown) {
-      this.selectedHeight = evt.offsetY;
+      this.selectedWidth = evt.offsetX;
       this.draw();
       this.emitColor(evt.offsetX, evt.offsetY);
     }
