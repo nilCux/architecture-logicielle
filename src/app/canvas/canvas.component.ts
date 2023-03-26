@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { DrawerService } from '../services/drawer.service';
+import { PainterService } from '../services/painter.service';
 
 type Point = {
   x: number;
@@ -21,7 +21,7 @@ export class CanvasComponent implements OnInit {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  constructor(private shapeManager: DrawerService) { }
+  constructor(private shapeManager: PainterService) { }
 
   ngOnInit(): void {
     this.canvas = <HTMLCanvasElement>document.getElementById('drawzone');
