@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DrawerService } from './drawer.service';
+import { PainterService } from './painter.service';
 
-describe('DrawerService', () => {
-  let service: DrawerService;
+describe('PainterService', () => {
+  let service: PainterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DrawerService);
+    service = TestBed.inject(PainterService);
   });
 
   it('should be created', () => {

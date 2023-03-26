@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DrawerService } from '../services/drawer.service';
+import { PainterService } from '../services/painter.service';
 
 @Component({
   selector: 'app-banner',
@@ -8,7 +8,7 @@ import { DrawerService } from '../services/drawer.service';
 })
 export class BannerComponent implements OnInit {
 
-  constructor(private shapeManager: DrawerService) { }
+  constructor(private shapeManager: PainterService) { }
 
   ngOnInit(): void {
   }

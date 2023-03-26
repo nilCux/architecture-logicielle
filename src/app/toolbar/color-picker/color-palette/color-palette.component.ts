@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core';
-import { DrawerService } from '../../../services/drawer.service';
+import { PainterService } from '../../../services/painter.service';
 
 @Component({
   selector: 'app-color-palette',
@@ -16,7 +16,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   private color: string;
   public selectedPosition: {x: number; y: number};
 
-  constructor(private shapeManager: DrawerService) { }
+  constructor(private shapeManager: PainterService) { }
 
   ngAfterViewInit() {
     this.canvas = <HTMLCanvasElement>document.getElementById('color-palette');

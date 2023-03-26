@@ -14,7 +14,7 @@ import { Arrow } from './shapes/arrow.service';
   providedIn: 'root'
 })
 
-export class DrawerService {
+export class PainterService {
 
   // Indicates if mouse is down
   private isMouseDown: Boolean = false;
