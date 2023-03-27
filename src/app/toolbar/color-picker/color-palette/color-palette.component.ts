@@ -16,7 +16,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   private color: string;
   public selectedPosition: {x: number; y: number};
 
-  constructor(private shapeManager: PainterService) { }
+  constructor(private shapeManager: PainterService) { this.color = 'rgba(0,19,255,1)';}
 
   ngAfterViewInit() {
     this.canvas = <HTMLCanvasElement>document.getElementById('color-palette');
@@ -28,7 +28,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   draw() {
     const selectColorHeight = 10;
 
-    this.ctx.fillStyle = this.hue || 'rgba(0,19,255,1)';
+    this.ctx.fillStyle = this.hue || this.color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     const whiteGrad = this.ctx.createLinearGradient(0, 0, this.canvas.width, 0);
