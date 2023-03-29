@@ -10,7 +10,6 @@ import { Text } from '../services/shapes/text.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private shapeManager: PainterService) { }
-  fill:boolean = false;
 
   ngOnInit(): void {
   }
@@ -22,7 +21,7 @@ export class ToolbarComponent implements OnInit {
   changeWidth(width: number) {
     this.shapeManager.setWidth(width);
   }
-
+  
   public onTextChange(event: Event): void {
     console.log(event.target);
     const value = (event.target as any).value;
@@ -32,10 +31,4 @@ export class ToolbarComponent implements OnInit {
   public isTextSelected() {
     return this.shapeManager.getCurrentShape() instanceof Text;
   }
-
-  changeFill() {
-    this.fill = !this.fill;
-    this.shapeManager.setFill(this.fill);
-  }
-
 }
