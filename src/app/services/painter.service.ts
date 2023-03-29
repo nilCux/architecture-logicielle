@@ -200,8 +200,7 @@ export class PainterService {
       let content = readerEvent.target.result.toString();
       this.loadCanvas = new Image;
       this.loadCanvas.src = content;
-      this.ctx.drawImage(this.loadCanvas,0,0);
-      this.GlobalDraw();
+      this.loadCanvas.onload= e=> this.ctx.drawImage(this.loadCanvas,0,0);
    }
   }
 
