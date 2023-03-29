@@ -187,6 +187,7 @@ export class PainterService {
       this.loadCanvas = new Image;
       this.loadCanvas.src = content;
       this.ctx.drawImage(this.loadCanvas,0,0);
+      this.GlobalDraw();
    }
   }
 
