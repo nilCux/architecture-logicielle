@@ -9,7 +9,8 @@ import { DrawerService } from '../services/drawer.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private shapeManager: DrawerService) { }
-
+  fill:boolean = false;
+  colorSelector:boolean = true;
   ngOnInit(): void {
   }
 
@@ -21,8 +22,17 @@ export class ToolbarComponent implements OnInit {
     this.shapeManager.setColor(color);
   }
 
+  changeBackgroundColor(color: string) {
+    this.shapeManager.setBackgroundColor(color);
+  }
+
   changeWidth(width: number) {
     this.shapeManager.setWidth(width);
+  }
+
+  changeFill() {
+    this.fill = !this.fill;
+    this.shapeManager.setFill(this.fill);
   }
 
 }

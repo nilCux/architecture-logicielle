@@ -8,6 +8,7 @@ export class Properties {
   private color: string
   private backgroundColor: string
   private width: number
+  private isFill: boolean = false
 
   constructor() {}
 
@@ -28,4 +29,10 @@ export class Properties {
   }
 
   getWidth() { return this.width; }
+
+  updateFill(fill: boolean) {
+    this.isFill = fill;
+  }
+
+  getFill() { return this.isFill; }
 }

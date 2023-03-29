@@ -38,6 +38,10 @@ export class DrawerService {
     console.warn(this.shapes)
     for (let i = 0; i < this.shapes.length; i++) {
       this.shapes[i].drawSelf(this.canvas, this.ctx);
+      if(this.shapes[i].properties.getFill()){
+        this.ctx.fillStyle = this.shapes[i].properties.getBackgroundColor();
+        this.ctx.fill();
+      }
     }
 
     this.ctx.strokeStyle = this.propertiesService.getColor();
@@ -57,9 +61,19 @@ export class DrawerService {
     console.log('color', color)
   }
 
+  setBackgroundColor(color: string) {
+    this.propertiesService.updateBackgroundColor(color);
+    console.log('color', color)
+  }
+
   setWidth(width: number) {
     this.propertiesService.updateWidth(width);
     console.log('width', width)
+  }
+
+  setFill(fill: boolean) {
+    this.propertiesService.updateFill(fill);
+    console.log('fillmode', fill)
   }
 
   setCurrentShape(shape: string) {

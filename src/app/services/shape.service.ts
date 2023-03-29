@@ -6,7 +6,7 @@ import { Properties } from './properties.service'
   providedIn: 'root'
 })
 export abstract class Shape {
-  protected properties: Properties
+  public properties: Properties
   protected p1: Point
   protected p2: Point
 

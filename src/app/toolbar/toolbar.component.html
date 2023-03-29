@@ -14,20 +14,28 @@
 </div>
 <div class="btn-group-vertical "style="flex-direction: row" role="group">
   <div class="color">
-    <button type="button" class="btn" (click)="changeColor('black')">
+    <button type="button" class="btn" (click)="colorSelector = !colorSelector">
+      <i class="bi bi-square"></i>
+    </button>
+    <button type="button" class="btn" (click)="colorSelector ? changeColor('black'): changeBackgroundColor('black')">
       <i class="bi bi-circle-fill" style="color: black"></i>
     </button>
-    <button type="button" class="btn" (click)="changeColor('red')">
+    <button type="button" class="btn" (click)="colorSelector ? changeColor('red'): changeBackgroundColor('red')">
       <i class="bi bi-circle-fill" style="color: red"></i>
     </button>
-    <button type="button" class="btn" (click)="changeColor('green')">
+    <button type="button" class="btn" (click)="colorSelector ? changeColor('green'): changeBackgroundColor('green')">
       <i class="bi bi-circle-fill" style="color: green"></i>
     </button>
-    <button type="button" class="btn" (click)="changeColor('blue')">
+    <button type="button" class="btn" (click)="colorSelector ? changeColor('blue'): changeBackgroundColor('blue')">
       <i class="bi bi-circle-fill" style="color: blue"></i>
     </button>
-    </div>
-    <div class="">
+  </div>
+  <div class="fill">
+    <button type="button" class="btn" (click)="changeFill()">
+      <i class="bi bi-square"></i>
+    </button>
+  </div>
+  <div class="">
     <button type="button" class="btn" (click)="changeWidth(1)">
       <i class="bi bi-circle-fill width" style="color: black; font-size: 10px;"></i>
     </button>
