@@ -17,6 +17,10 @@ export class Rectangle extends Shape {
     ctx.lineWidth = this.properties.getWidth();
     ctx.strokeStyle = this.properties.getColor();
     ctx.stroke();
+    if(this.properties.getFill()){
+      ctx.fillStyle = this.properties.getBackgroundColor();
+      ctx.fill();
+    }
   }
 
   override drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {

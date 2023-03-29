@@ -25,7 +25,7 @@ export class ToolbarComponent implements OnInit {
 
   public onTextChange(event: Event): void {
     console.log(event.target);
-    const value = (event.target as any).value;
+    const value = (event.target as any).value != ""?(event.target as any).value:"Please enter text";
     this.shapeManager.setText(value);
   }
 

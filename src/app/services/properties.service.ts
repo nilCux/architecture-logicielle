@@ -8,7 +8,7 @@ export class Properties {
   private color: string
   private backgroundColor: string
   private width: number
-  private text: string
+  private text: string = "Please enter text"
   private isFill: boolean = false
 
   constructor() {}
