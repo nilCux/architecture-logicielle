@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DrawerService } from '../services/drawer.service';
+import { PainterService } from '../services/painter.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,22 +8,14 @@ import { DrawerService } from '../services/drawer.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private shapeManager: DrawerService) { }
+  constructor(private shapeManager: PainterService) { }
   fill:boolean = false;
-  colorSelector:boolean = true;
+
   ngOnInit(): void {
   }
 
   changeShape(shape: string) {
     this.shapeManager.setCurrentShape(shape);
-  }
-
-  changeColor(color: string) {
-    this.shapeManager.setColor(color);
-  }
-
-  changeBackgroundColor(color: string) {
-    this.shapeManager.setBackgroundColor(color);
   }
 
   changeWidth(width: number) {

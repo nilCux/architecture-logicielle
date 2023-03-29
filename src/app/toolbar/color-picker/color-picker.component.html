@@ -1,0 +1,9 @@
+<div class="btn-group-horizontal "style="flex-direction: row" role="group">
+  <div class=color-wrapper>
+    <button type="button" class="btn" (click)="isColorBackground = !isColorBackground">
+      <i class="bi bi-square"></i>
+    </button>
+    <app-color-palette [isColorBackground]="isColorBackground" [hue]="hue" ></app-color-palette>
+    <app-color-slider (color)="hue=$event"></app-color-slider>
+  </div>
+</div>

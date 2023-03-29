@@ -7,12 +7,14 @@ import { Circle } from './shapes/circle.service'
 import { Shape } from './shape.service'
 import * as _ from 'lodash';
 import { Triangle } from './shapes/triangle.service';
+import { Hexagon } from './shapes/hexagon.service';
+import { Arrow } from './shapes/arrow.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class DrawerService {
+export class PainterService {
 
   // Indicates if mouse is down
   private isMouseDown: Boolean = false;
@@ -30,11 +32,18 @@ export class DrawerService {
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
 
+  // Canvas to be load
+  private loadCanvas: HTMLImageElement;
+
   constructor(private propertiesService: Properties) {
   }
 
-  GlobalDraw() {
+  GlobalDraw() {    
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    if(this.loadCanvas !== undefined)
+      this.ctx.drawImage(this.loadCanvas,0,0)
+
     console.warn(this.shapes)
     for (let i = 0; i < this.shapes.length; i++) {
       this.shapes[i].drawSelf(this.canvas, this.ctx);
@@ -52,7 +61,7 @@ export class DrawerService {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.setCurrentShape("line");
-    this.propertiesService.updateColor("black");
+    this.propertiesService.updateColor("rgba(0,19,255,1)");
     this.propertiesService.updateWidth(1);
   }
 
@@ -90,6 +99,12 @@ export class DrawerService {
         break;
       case "triangle":
         this.currentShapeInstance = new Triangle(new Point(), new Point(), this.propertiesService);
+        break;
+      case "hexagon":
+        this.currentShapeInstance = new Hexagon(new Point(), new Point(), this.propertiesService);
+        break;
+      case "arrow":
+        this.currentShapeInstance = new Arrow(new Point(), new Point(), this.propertiesService);
         break;
     }
 
@@ -129,6 +144,7 @@ export class DrawerService {
   clearScreen() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.shapes.splice(0);
+    this.loadCanvas = undefined;
   }
 
   onMouseMove(e: MouseEvent) {
@@ -165,6 +181,28 @@ export class DrawerService {
       this.shapes.push(this.deleted.pop());
       this.GlobalDraw();
     }
+  }
+
+  downloadCanvas() {
+    const createEl = document.createElement('a');
+    createEl.href = this.canvas.toDataURL();
+    createEl.download = "canvas";
+    createEl.click();
+    createEl.remove();
+  }
+
+  uploadCanvas(e:any) {
+    this.clearScreen()
+    let reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+
+    reader.onload = readerEvent => {
+      let content = readerEvent.target.result.toString();
+      this.loadCanvas = new Image;
+      this.loadCanvas.src = content;
+      this.ctx.drawImage(this.loadCanvas,0,0);
+      this.GlobalDraw();
+   }
   }
 
   private getMousePos(e: MouseEvent) {
