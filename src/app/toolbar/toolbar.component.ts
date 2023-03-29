@@ -9,7 +9,6 @@ import { PainterService } from '../services/painter.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private shapeManager: PainterService) { }
-  fill:boolean = false;
 
   ngOnInit(): void {
   }
@@ -20,11 +19,6 @@ export class ToolbarComponent implements OnInit {
 
   changeWidth(width: number) {
     this.shapeManager.setWidth(width);
-  }
-
-  changeFill() {
-    this.fill = !this.fill;
-    this.shapeManager.setFill(this.fill);
   }
 
 }

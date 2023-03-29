@@ -1,9 +1,18 @@
 <div class="btn-group-horizontal "style="flex-direction: row" role="group">
   <div class=color-wrapper>
-    <button type="button" class="btn" (click)="isColorBackground = !isColorBackground">
-      <i class="bi bi-square"></i>
-    </button>
+    
     <app-color-palette [isColorBackground]="isColorBackground" [hue]="hue" ></app-color-palette>
+    <label class="btn btn-secondary" [ngClass]="isFill ? 'active':''" (click)="changeFill()">
+      Fill
+    </label>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" *ngIf="isFill">
+      <label class="btn btn-secondary" [ngClass]="!isColorBackground ? 'active':''" (click)="isColorBackground = false">
+        Border
+      </label>
+      <label class="btn btn-secondary" [ngClass]="isColorBackground ? 'active':''" (click)="isColorBackground = true">
+        Background
+      </label>
+    </div>
     <app-color-slider (color)="hue=$event"></app-color-slider>
   </div>
 </div>
