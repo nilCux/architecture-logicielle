@@ -20,6 +20,13 @@
   <button type="button" class="btn" (click)="changeShape('arrow')">
     <i class="bi bi-arrow-right"></i>
   </button>
+  <button type="button" class="btn" (click)="changeShape('text')">
+    <i class="bi bi-fonts"></i>
+  </button>
+</div>
+
+<div class="center">
+  <textarea (input)="onTextChange($event)" *ngIf="isTextSelected()"></textarea>
 </div>
 
 <div class="center">
@@ -45,4 +52,5 @@
 
 <div class="center">
   <app-color-picker></app-color-picker>
-</div> 
+</div>
+
