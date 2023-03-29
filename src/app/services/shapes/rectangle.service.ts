@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Shape } from '../shape.service'
+import { Shape } from '../shape.service';
 
 @Injectable({
   providedIn: 'root'
