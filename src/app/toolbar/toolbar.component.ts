@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PainterService } from '../services/painter.service';
+import { Text } from '../services/shapes/text.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,5 +21,14 @@ export class ToolbarComponent implements OnInit {
   changeWidth(width: number) {
     this.shapeManager.setWidth(width);
   }
+  
+  public onTextChange(event: Event): void {
+    console.log(event.target);
+    const value = (event.target as any).value;
+    this.shapeManager.setText(value);
+  }
 
+  public isTextSelected() {
+    return this.shapeManager.getCurrentShape() instanceof Text;
+  }
 }

@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { Triangle } from './shapes/triangle.service';
 import { Hexagon } from './shapes/hexagon.service';
 import { Arrow } from './shapes/arrow.service';
+import { Text } from './shapes/text.service';
 
 @Injectable({
   providedIn: 'root'
@@ -107,8 +108,15 @@ export class PainterService {
       case "arrow":
         this.currentShapeInstance = new Arrow(new Point(), new Point(), this.propertiesService);
         break;
+      case "text":
+        this.currentShapeInstance = new Text(new Point(), new Point(), this.propertiesService);
     }
 
+  }
+
+  setText(text: string) {
+    this.propertiesService.updateText(text);
+    console.log("Changing text to " + this.propertiesService.getText());
   }
 
   onDown(e: MouseEvent) {
@@ -201,8 +209,7 @@ export class PainterService {
       let content = readerEvent.target.result.toString();
       this.loadCanvas = new Image;
       this.loadCanvas.src = content;
-      this.ctx.drawImage(this.loadCanvas,0,0);
-      this.GlobalDraw();
+      this.loadCanvas.onload= e=> this.ctx.drawImage(this.loadCanvas,0,0);
    }
   }
 
@@ -212,6 +219,10 @@ export class PainterService {
       x: (e.clientX - rect.left) / (rect.right - rect.left) * this.canvas.width,
       y: (e.clientY - rect.top) / (rect.bottom - rect.top) * this.canvas.height
     }
+  }
+
+  getCurrentShape() {
+    return this.currentShapeInstance;
   }
 
 }
