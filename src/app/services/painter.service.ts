@@ -48,10 +48,6 @@ export class PainterService {
     console.warn(this.shapes)
     for (let i = 0; i < this.shapes.length; i++) {
       this.shapes[i].drawSelf(this.canvas, this.ctx);
-      if(this.shapes[i].properties.getFill()){
-        this.ctx.fillStyle = this.shapes[i].properties.getBackgroundColor();
-        this.ctx.fill();
-      }
     }
 
     this.ctx.strokeStyle = this.propertiesService.getColor();
