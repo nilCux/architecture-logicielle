@@ -1,10 +1,27 @@
+@import "bootstrap/scss/bootstrap"
+
 .bi
   font-size: 40px
-
-.btn
-  color: #581010
 
 .center
   display: flex 
   justify-content: center
   align-items: center
+  
+.inline li 
+  display: inline-block
+  float: left
+  text-align: center
+  width: 50%
+
+.btn-hover
+  &:hover
+    background-color: #0056b3
+    border-color: #0056b3
+    color: #fff
+
+.btn-disabled
+  &:hover
+    background-color: #fff
+    border-color: $secondary
+    color: $secondary

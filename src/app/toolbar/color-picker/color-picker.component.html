@@ -2,16 +2,13 @@
   <div class=color-wrapper>
     
     <app-color-palette [isColorBackground]="isColorBackground" [hue]="hue" ></app-color-palette>
-    <label class="btn btn-secondary" [ngClass]="isFill ? 'active':''" (click)="changeFill()">
-      Fill
-    </label>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons" *ngIf="isFill">
-      <label class="btn btn-secondary" [ngClass]="!isColorBackground ? 'active':''" (click)="isColorBackground = false">
+    <div class="btn-group btn-group-toggle center" data-toggle="buttons" *ngIf="isFill()">
+      <button type="button" class="btn btn-outline-secondary" [ngClass]="!isColorBackground ? 'active':''" (click)="isColorBackground = false">
         Border
-      </label>
-      <label class="btn btn-secondary" [ngClass]="isColorBackground ? 'active':''" (click)="isColorBackground = true">
-        Background
-      </label>
+      </button>
+      <button type="button" class="btn btn-outline-secondary" [ngClass]="isColorBackground ? 'active':''" (click)="isColorBackground = true">
+        Back
+      </button>
     </div>
     <app-color-slider (color)="hue=$event"></app-color-slider>
   </div>

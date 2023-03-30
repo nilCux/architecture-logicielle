@@ -83,6 +83,10 @@ export class PainterService {
     console.log('fillmode', fill)
   }
 
+  getFill() {
+    return this.propertiesService.getFill()
+  }
+
   setCurrentShape(shape: string) {
 
     switch (shape) {

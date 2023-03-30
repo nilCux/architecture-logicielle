@@ -11,13 +11,11 @@ export class ColorPickerComponent {
   public hue: string;
   public color: string;
   public isColorBackground: boolean = false;
-  public isFill: boolean = false;
-
 
   constructor(private shapeManager: PainterService) { }
-  changeFill() {
-    this.isFill = !this.isFill;
-    this.shapeManager.setFill(this.isFill);
+
+  isFill() {
+    return this.shapeManager.getFill()
   }
 }
 
