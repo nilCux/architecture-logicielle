@@ -1,35 +1,140 @@
 <div class="center">
-  <button type="button" class="btn" (click)="changeShape('line')">
-    <i class="bi bi-slash-lg"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeShape('rectangle')">
-    <i class="bi bi-square"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeShape('circle')">
-    <i class="bi bi-circle"></i>
-  </button>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="center">
+          <p class="lead">Shape</p>
+        </div>
+        <div class="center">
+          <div class="btn-group">
+            <!-- Line -->
+            <button *ngIf="isLineSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('line')">
+              <i class="bi bi-slash-lg"></i>
+            </button>
+            <!-- Rectangle -->
+            <button *ngIf="isRectSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('rectangle')"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-square"></i>
+            </button>
+            <!-- Circle -->
+            <button *ngIf="isCircleSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('circle')">
+              <i class="bi bi-circle"></i>
+            </button>
+            <!-- Triangle -->
+            <button *ngIf="isTriangleSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('triangle')">
+              <i class="bi bi-triangle"></i>
+            </button>
+            <!-- Hexagon -->
+            <button *ngIf="isHexagonSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('hexagon')">
+              <i class="bi bi-hexagon"></i>
+            </button>
+            <!-- Arrow -->
+            <button *ngIf="isArrowSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('arrow')">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+            <!-- Text -->
+            <button *ngIf="isTextSelected()" type="button" class="btn shape-btn btn-outline-secondary" (click)="changeShape('text')">
+              <i class="bi bi-file-font"></i>
+            </button>
+        
+            <!-- Toggle dropdown -->
+            <button type="button" class="btn btn-hover btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu inline">
+              <!-- Line -->
+              <li>
+                <button *ngIf="!isLineSelected()" type="button" class="btn btn-hover" (click)="changeShape('line')">
+                  <i class="bi bi-slash-lg"></i>
+                </button>
+              </li>
+              <!-- Rectangle -->
+              <li>
+                <button *ngIf="!isRectSelected()" type="button" class="btn btn-hover" (click)="changeShape('rectangle')">
+                  <i class="bi bi-square"></i>
+                </button>
+              </li>
+              <!-- Circle -->
+              <li>
+                <button *ngIf="!isCircleSelected()" type="button" class="btn btn-hover" (click)="changeShape('circle')">
+                  <i class="bi bi-circle"></i>
+                </button>
+              </li>
+              <!-- Triangle -->
+              <li>
+                <button *ngIf="!isTriangleSelected()" type="button" class="btn btn-hover" (click)="changeShape('triangle')">
+                  <i class="bi bi-triangle"></i>
+                </button>
+              </li>
+              <!-- Hexagon -->
+              <li>
+                <button *ngIf="!isHexagonSelected()" type="button" class="btn btn-hover" (click)="changeShape('hexagon')">
+                  <i class="bi bi-hexagon"></i>
+                </button>
+              </li>
+              <!-- Arrow -->
+              <li>
+                <button *ngIf="!isArrowSelected()" type="button" class="btn btn-hover" (click)="changeShape('arrow')">
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </li>
+              <!-- Text -->
+              <li>
+                <button *ngIf="!isTextSelected()" type="button" class="btn btn-hover" (click)="changeShape('text')">
+                  <i class="bi bi-file-font"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col" *ngIf="!isNotFillable()">
+        <div class="center">
+          <p class="lead">Fill</p>
+        </div>
+        <div class="center">
+          <!-- Fill Rectangle -->
+          <button *ngIf="isRectSelected()" type="button" class="btn" (click)="changeFill()">
+            <i *ngIf="!isFillSelected()" class="bi bi-square"></i>
+            <i *ngIf="isFillSelected()" class="bi bi-square-fill"></i>
+          </button>
+          <!-- Fill Circle -->
+          <button *ngIf="isCircleSelected()" type="button" class="btn" (click)="changeFill()">
+            <i *ngIf="!isFillSelected()" class="bi bi-circle"></i>
+            <i *ngIf="isFillSelected()" class="bi bi-circle-fill"></i>
+          </button>
+          <!-- Fill Triangle -->
+          <button *ngIf="isTriangleSelected()" type="button" class="btn" (click)="changeFill()">
+            <i *ngIf="!isFillSelected()" class="bi bi-triangle"></i>
+            <i *ngIf="isFillSelected()" class="bi bi-triangle-fill"></i>
+          </button>
+          <!-- Hexagon -->
+          <button *ngIf="isHexagonSelected()" type="button" class="btn" (click)="changeFill()">
+            <i *ngIf="!isFillSelected()" class="bi bi-hexagon"></i>
+            <i *ngIf="isFillSelected()" class="bi bi-hexagon-fill"></i>
+          </button>
+          <!-- Text -->
+          <button *ngIf="isTextSelected()" type="button" class="btn" (click)="changeFill()">
+            <i *ngIf="!isFillSelected()" class="bi bi-file-font"></i>
+            <i *ngIf="isFillSelected()" class="bi bi-file-font-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+
+
+  
 <div class="center">
-  <button type="button" class="btn" (click)="changeShape('triangle')">
-    <i class="bi bi-triangle"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeShape('hexagon')">
-    <i class="bi bi-hexagon"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeShape('arrow')">
-    <i class="bi bi-arrow-right"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeShape('text')">
-    <i class="bi bi-fonts"></i>
-  </button>
+  <textarea class="form-control mt-2" (input)="onTextChange($event)" *ngIf="isTextSelected()" placeholder="Please enter text"></textarea>
 </div>
 
-<div class="center">
-  <textarea (input)="onTextChange($event)" *ngIf="isTextSelected()" placeholder="Please enter text"></textarea>
-</div>
-
-<div class="center">
+<div class="center mt-2">
   <button type="button" class="btn" (click)="changeWidth(1)">
     <i class="bi bi-circle-fill width" style="color: black; font-size: 7px;"></i>
   </button>
@@ -47,4 +152,3 @@
 <div class="center">
   <app-color-picker></app-color-picker>
 </div>
-
