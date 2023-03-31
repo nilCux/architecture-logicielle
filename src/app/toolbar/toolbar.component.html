@@ -126,29 +126,21 @@
     </div>
   </div>
 </div>
-
-
-
   
 <div class="center">
   <textarea class="form-control mt-2" (input)="onTextChange($event)" *ngIf="isTextSelected()" placeholder="Please enter text"></textarea>
 </div>
 
-<div class="center mt-2">
-  <button type="button" class="btn" (click)="changeWidth(1)">
-    <i class="bi bi-circle-fill width" style="color: black; font-size: 7px;"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeWidth(3)">
-    <i class="bi bi-circle-fill width" style="color: black; font-size: 12px;"></i>
-  </button>
-  <button type="button" class="btn" (click)="changeWidth(5)">
-    <i class="bi bi-circle-fill width" style="color: black; font-size: 17px; "></i>
-  </button>
-  <button type="button" class="btn" (click)="changeWidth(7)">
-    <i class="bi bi-circle-fill width" style="color: black;  font-size: 22px;"></i>
-  </button>
+<div class="center mt-4">
+  <p class="lead">Width</p>
+</div>
+<div class="center mb-2">
+  <app-width-slider></app-width-slider>
 </div>
 
+<div class="center">
+  <p class="lead">Color</p>
+</div>
 <div class="center">
   <app-color-picker></app-color-picker>
 </div>

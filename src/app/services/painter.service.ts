@@ -60,7 +60,7 @@ export class PainterService {
     this.setCurrentShape("line");
     this.propertiesService.updateColor("rgba(0,19,255,1)");
     this.propertiesService.updateBackgroundColor("rgba(0,19,255,1)");
-    this.propertiesService.updateWidth(1);
+    this.propertiesService.updateWidth(2.5);
   }
 
   setColor(color: string) {

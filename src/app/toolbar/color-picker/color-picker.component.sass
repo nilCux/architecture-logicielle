@@ -1,36 +1,10 @@
+@import "../../app.component.sass"
 @import "bootstrap/scss/bootstrap"
 
 :host 
   display: block
   width: 316px
   padding: 16px
-
-color-wrapper 
-  display: flex
-  height: 250px
-
-
-input-wrapper 
-  margin-top: 16px
-  display: flex
-  border-radius: 1px
-  border: 1px solid rgb(220, 220, 220)
-  padding: 8px
-  height: 32px
-  justify-content: center
-
-
-color-div 
-  width: 32px
-  height: 32px
-  border-radius: 50%
-  border: 1px solid rgb(220, 220, 220)
-
-
-.text 
-  flex: 1
-  font-family: 'Helvetica'
-  line-height: 32px
 
 .center
   display: flex 
@@ -39,6 +13,6 @@ color-div
 
 .btn
   &:hover
-    background-color: #0056b3
-    border-color: #0056b3
+    background-color: $primary
+    border-color: $primary
     color: #fff
