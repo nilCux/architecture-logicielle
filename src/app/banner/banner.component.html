@@ -1,18 +1,18 @@
 <nav class="navbar">
   <div class="container-fluid">
     <div>
-      <button type="button" class="btn" (click)="undoLast()">
+      <button type="button" class="btn btn-hover" (click)="undoLast()">
         <i class="bi bi-arrow-left fs-3"></i>
       </button>
-      <button type="button" class="btn" (click)="redoLast()">
+      <button type="button" class="btn btn-hover" (click)="redoLast()">
         <i class="bi bi-arrow-right fs-3"></i>
       </button>
-      <button type="button" class="btn" (click)="downloadCanvas()">
-        <i class="bi bi-download fs-3"></i>
+      <button type="button" class="btn btn-hover" (click)="downloadCanvas()">
+        <i class="bi bi-upload fs-3"></i>
       </button>
 
-      <button type="button" class="btn" (click)="fileInput.click()">
-        <i class="bi bi-upload fs-3"></i>
+      <button type="button" class="btn btn-hover" (click)="fileInput.click()">
+        <i class="bi bi-download fs-3"></i>
         <input #fileInput type="file" accept="image/*" (change)="uploadCanvas($event)" style="display:none;" />
       </button>
     </div>
