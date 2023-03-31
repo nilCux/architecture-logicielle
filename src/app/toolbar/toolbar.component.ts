@@ -25,10 +25,6 @@ export class ToolbarComponent implements OnInit {
   changeShape(shape: string) {
     this.shapeManager.setCurrentShape(shape);
   }
-
-  changeWidth(width: number) {
-    this.shapeManager.setWidth(width);
-  }
   
   public onTextChange(event: Event): void {
     console.log(event.target);

@@ -8,10 +8,11 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { BannerComponent } from './banner/banner.component';
 import { ColorPickerModule } from './toolbar/color-picker/color-picker.module'
+import { WidthSliderModule } from './toolbar/width-slider/width-slider.module';
 
 @NgModule({
   declarations: [AppComponent, ToolbarComponent, CanvasComponent, BannerComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, ColorPickerModule],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, ColorPickerModule, WidthSliderModule],
   providers: [],
   bootstrap: [AppComponent],
 })
