@@ -70,7 +70,7 @@ export class Text extends Shape {
       ctx.strokeText(linesArray[i], this.p1.x, this.p1.y  + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
       if(this.properties.getFill()){
         ctx.fillStyle = this.properties.getBackgroundColor();
-        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?-(linesArray.length - i):i) * fontheight);
+        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
       }
     }
   }
@@ -125,7 +125,7 @@ export class Text extends Shape {
       ctx.strokeText(linesArray[i], this.p1.x, this.p1.y  + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
       if(this.properties.getFill()){
         ctx.fillStyle = this.properties.getBackgroundColor();
-        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?-(linesArray.length - i):i) * fontheight);
+        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
       }
     }
     ctx.beginPath();
