@@ -60,6 +60,20 @@ export class CanvasComponent implements OnInit {
     this.shapeManager.redoLast();
   }
 
+  @HostListener('document:keydown.alt', ['$event'])
+  altDown(event: KeyboardEvent) {
+	event.preventDefault();
+	event.stopPropagation();
+	this.shapeManager.altDown();
+  }
+
+  @HostListener('document:keyup.alt', ['$event'])
+  altUp(event: KeyboardEvent) {
+	event.preventDefault();
+	event.stopPropagation();
+	this.shapeManager.altUp();
+  }
+
   dummy() {
     console.log("HELLO")
   }

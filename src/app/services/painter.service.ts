@@ -24,6 +24,8 @@ export class PainterService {
   // End point when mouse is down
   private endMouseDown: Point = { x: 0, y: 0 };
 
+  private isAltPressed: Boolean = false;
+
   // Array of shapes to be drawn
   private shapes: Shape[] = [];
   private deleted: Shape[] = []
@@ -164,6 +166,16 @@ export class PainterService {
       // Get mouse position
       this.endMouseDown = this.getMousePos(e);
 
+	  if (this.isAltPressed) {
+		const offset = {
+			x: this.endMouseDown.x - this.startMouseDown.x,
+			y: this.endMouseDown.y - this.startMouseDown.y
+		};
+		this.currentShapeInstance.updateStartPoint({
+			x: this.startMouseDown.x - offset.x,
+			y: this.startMouseDown.y - offset.y
+		});
+	  }
       this.currentShapeInstance.updateEndPoint(this.endMouseDown);
 
       this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
@@ -174,6 +186,7 @@ export class PainterService {
   mouseOut(e: MouseEvent) {
     if (this.isMouseDown) {
       this.onUp(e);
+	  this.altUp();
     }
   }
 
@@ -190,6 +203,31 @@ export class PainterService {
       this.shapes.push(this.deleted.pop());
       this.GlobalDraw();
     }
+  }
+
+  altDown() {
+	this.isAltPressed = true;
+	const offset = {
+		x: this.endMouseDown.x - this.startMouseDown.x,
+		y: this.endMouseDown.y - this.startMouseDown.y
+	};
+	this.currentShapeInstance.updateStartPoint({
+		x: this.startMouseDown.x - offset.x,
+		y: this.startMouseDown.y - offset.y
+	});
+	this.GlobalDraw();
+	if(this.isMouseDown){
+		this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
+	}
+  }
+
+  altUp() {
+	this.isAltPressed = false;
+	this.currentShapeInstance.updateStartPoint(this.startMouseDown);
+	this.GlobalDraw();
+	if(this.isMouseDown){
+		this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
+	}
   }
 
   downloadCanvas() {
