@@ -6,6 +6,8 @@ import { Component, AfterViewInit, Output, HostListener, EventEmitter } from '@a
   styleUrls: ['./color-slider.component.sass']
 })
 export class ColorSliderComponent implements AfterViewInit {
+
+  // Color to be transmitted to the color palette
   @Output()
   color: EventEmitter<string> = new EventEmitter();
 
@@ -21,12 +23,14 @@ export class ColorSliderComponent implements AfterViewInit {
     this.draw();
   }
 
-  draw() {
+  // Draw color slider
+  private draw() {
     const gradientHeight = 10;
     const selectColorHeight = 15;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // Draw gradient
     const gradient = this.ctx.createLinearGradient(0, 0, this.canvas.width, 0);
     gradient.addColorStop(0, 'rgba(255, 0, 0, 1)');
     gradient.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
@@ -38,11 +42,11 @@ export class ColorSliderComponent implements AfterViewInit {
 
     this.ctx.beginPath();
     this.ctx.rect(0, (this.canvas.height-gradientHeight)/2, this.canvas.width, gradientHeight);
-
     this.ctx.fillStyle = gradient;
     this.ctx.fill();
     this.ctx.closePath();
 
+    // Draw the color selection circle
     this.ctx.strokeStyle = 'white';
     this.ctx.fillStyle = this.getColorAtPosition(this.selectedWidth, this.canvas.height/2);
     this.ctx.beginPath();
@@ -53,31 +57,31 @@ export class ColorSliderComponent implements AfterViewInit {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  public onMouseUp(mouseEvent: MouseEvent) {
     this.mousedown = false;
   }
 
-  onMouseDown(evt: MouseEvent) {
+  public onMouseDown(mouseEvent: MouseEvent) {
     this.mousedown = true;
-    this.selectedWidth = evt.offsetX;
+    this.selectedWidth = mouseEvent.offsetX;
     this.draw();
-    this.emitColor(evt.offsetX, evt.offsetY);
+    this.emitColor(mouseEvent.offsetX, mouseEvent.offsetY);
   }
 
-  onMouseMove(evt: MouseEvent) {
+  public onMouseMove(mouseEvent: MouseEvent) {
     if (this.mousedown) {
-      this.selectedWidth = evt.offsetX;
+      this.selectedWidth = mouseEvent.offsetX;
       this.draw();
-      this.emitColor(evt.offsetX, evt.offsetY);
+      this.emitColor(mouseEvent.offsetX, mouseEvent.offsetY);
     }
   }
 
-  emitColor(x: number, y: number) {
+  private emitColor(x: number, y: number) {
     const rgbaColor = this.getColorAtPosition(x, y);
     this.color.emit(rgbaColor);
   }
 
-  getColorAtPosition(x: number, y: number) {
+  private getColorAtPosition(x: number, y: number) {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
     return 'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)';
   }

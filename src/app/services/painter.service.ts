@@ -17,7 +17,6 @@ import { Text } from './shapes/text.service';
 
 export class PainterService {
 
-  // Indicates if mouse is down
   private isMouseDown: Boolean = false;
   // Start point when mouse is down
   private startMouseDown: Point = { x: 0, y: 0 };
@@ -28,35 +27,22 @@ export class PainterService {
 
   // Array of shapes to be drawn
   private shapes: Shape[] = [];
+  // Deleted shapes, used to undo and redo drawings 
   private deleted: Shape[] = []
 
   // Current shape to be drawn
   private currentShapeInstance: Shape;
+
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
 
   // Canvas to be load
   private loadCanvas: HTMLImageElement;
 
-  constructor(private propertiesService: Properties) {
-  }
+  constructor(private propertiesService: Properties) {}
 
-  GlobalDraw() {    
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    if(this.loadCanvas !== undefined)
-      this.ctx.drawImage(this.loadCanvas,0,0)
 
-    console.warn(this.shapes)
-    for (let i = 0; i < this.shapes.length; i++) {
-      this.shapes[i].drawSelf(this.canvas, this.ctx);
-    }
-
-    this.ctx.strokeStyle = this.propertiesService.getColor();
-    this.ctx.lineWidth = this.propertiesService.getWidth();
-  }
-
-  initCanvas(canvas: HTMLCanvasElement) {
+  public initCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.setCurrentShape("line");
@@ -65,32 +51,45 @@ export class PainterService {
     this.propertiesService.updateWidth(2.5);
   }
 
-  setColor(color: string) {
+  private globalDraw() {   
+    // Clear canvas 
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Draw load canvas if exist
+    if(this.loadCanvas !== undefined)
+      this.ctx.drawImage(this.loadCanvas,0,0)
+
+    // Draw shape
+    for (let i = 0; i < this.shapes.length; i++) {
+      this.shapes[i].drawSelf(this.ctx);
+    }
+
+    // Set properties for shape
+    this.ctx.strokeStyle = this.propertiesService.getColor();
+    this.ctx.lineWidth = this.propertiesService.getWidth();
+  }
+
+  public setColor(color: string) {
     this.propertiesService.updateColor(color);
-    console.log('color', color)
   }
 
-  setBackgroundColor(color: string) {
-    this.propertiesService.updateBackgroundColor(color);
-    console.log('color', color)
+  public setBackgroundColor(backgroundColor: string) {
+    this.propertiesService.updateBackgroundColor(backgroundColor);
   }
 
-  setWidth(width: number) {
+  public setWidth(width: number) {
     this.propertiesService.updateWidth(width);
-    console.log('width', width)
   }
 
-  setFill(fill: boolean) {
+  public setFill(fill: boolean) {
     this.propertiesService.updateFill(fill);
-    console.log('fillmode', fill)
   }
 
-  getFill() {
-    return this.propertiesService.getFill()
+  public getFill() {
+    return this.propertiesService.getFill();
   }
 
-  setCurrentShape(shape: string) {
-
+  public setCurrentShape(shape: string) {
     switch (shape) {
       case "line":
         this.currentShapeInstance = new Line(new Point(), new Point(), this.propertiesService);
@@ -113,124 +112,124 @@ export class PainterService {
       case "text":
         this.currentShapeInstance = new Text(new Point(), new Point(), this.propertiesService);
     }
-
   }
 
-  setText(text: string) {
+  public setText(text: string) {
     this.propertiesService.updateText(text);
     console.log("Changing text to " + this.propertiesService.getText());
   }
 
-  onDown(e: MouseEvent) {
+  public onDown(mouseEvent: MouseEvent) {
     this.isMouseDown = true;
 
     this.startMouseDown = {
-      x: e.offsetX,
-      y: e.offsetY
+      x: mouseEvent.offsetX,
+      y: mouseEvent.offsetY
     };
     this.endMouseDown = {
-      x: e.offsetX,
-      y: e.offsetY
+      x: mouseEvent.offsetX,
+      y: mouseEvent.offsetY
     }
 
     this.currentShapeInstance.updateStartPoint({
-      x: e.offsetX,
-      y: e.offsetY
+      x: mouseEvent.offsetX,
+      y: mouseEvent.offsetY
     });
 
     this.currentShapeInstance.updateEndPoint({
-      x: e.offsetX,
-      y: e.offsetY
+      x: mouseEvent.offsetX,
+      y: mouseEvent.offsetY
     });
   }
 
-  onUp(e: MouseEvent) {
+  public onUp(mouseEvent: MouseEvent) {
     if (this.isMouseDown) {
       this.isMouseDown = false;
       this.shapes.push(_.cloneDeep(this.currentShapeInstance));
-      this.GlobalDraw();
+      this.globalDraw();
     }
   }
 
-  clearScreen() {
+  public clearScreen() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.shapes.splice(0);
     this.loadCanvas = undefined;
   }
 
-  onMouseMove(e: MouseEvent) {
+  public onMouseMove(e: MouseEvent) {
     if (this.isMouseDown) {
       // Draw old lines when tracing
-      this.GlobalDraw();
+      this.globalDraw();
 
       // Get mouse position
       this.endMouseDown = this.getMousePos(e);
 
-	  if (this.isAltPressed) {
-		const offset = {
-			x: this.endMouseDown.x - this.startMouseDown.x,
-			y: this.endMouseDown.y - this.startMouseDown.y
-		};
-		this.currentShapeInstance.updateStartPoint({
-			x: this.startMouseDown.x - offset.x,
-			y: this.startMouseDown.y - offset.y
-		});
-	  }
+      if (this.isAltPressed) {
+        const offset = {
+          x: this.endMouseDown.x - this.startMouseDown.x,
+          y: this.endMouseDown.y - this.startMouseDown.y
+        };
+        this.currentShapeInstance.updateStartPoint({
+          x: this.startMouseDown.x - offset.x,
+          y: this.startMouseDown.y - offset.y
+        });
+      }
       this.currentShapeInstance.updateEndPoint(this.endMouseDown);
 
-      this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
+      this.currentShapeInstance.drawPhantom(this.ctx);
 
     }
   }
 
-  mouseOut(e: MouseEvent) {
+  public mouseOut(mouseEvent: MouseEvent) {
     if (this.isMouseDown) {
-      this.onUp(e);
-	  this.altUp();
+      this.onUp(mouseEvent);
+	    this.altUp();
     }
   }
 
-  undoLast() {
+  public undoLast() {
     if (this.shapes.length != 0) {
       let last: Shape = this.shapes.pop();
       this.deleted.push(last);
-      this.GlobalDraw();
+      this.globalDraw();
     }
   }
 
-  redoLast() {
+  public redoLast() {
     if (this.deleted.length != 0) {
       this.shapes.push(this.deleted.pop());
-      this.GlobalDraw();
+      this.globalDraw();
     }
   }
 
-  altDown() {
-	this.isAltPressed = true;
-	const offset = {
-		x: this.endMouseDown.x - this.startMouseDown.x,
-		y: this.endMouseDown.y - this.startMouseDown.y
-	};
-	this.currentShapeInstance.updateStartPoint({
-		x: this.startMouseDown.x - offset.x,
-		y: this.startMouseDown.y - offset.y
-	});
-	this.GlobalDraw();
-	if(this.isMouseDown){
-		this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
-	}
+  public altDown() {
+    this.isAltPressed = true;
+    const offset = {
+      x: this.endMouseDown.x - this.startMouseDown.x,
+      y: this.endMouseDown.y - this.startMouseDown.y
+    };
+    this.currentShapeInstance.updateStartPoint({
+      x: this.startMouseDown.x - offset.x,
+      y: this.startMouseDown.y - offset.y
+    });
+    this.globalDraw();
+    if(this.isMouseDown){
+      this.currentShapeInstance.drawPhantom(this.ctx);
+    }
   }
 
-  altUp() {
-	this.isAltPressed = false;
-	this.currentShapeInstance.updateStartPoint(this.startMouseDown);
-	this.GlobalDraw();
-	if(this.isMouseDown){
-		this.currentShapeInstance.drawPhantom(this.canvas, this.ctx);
-	}
+  public altUp() {
+    this.isAltPressed = false;
+    this.currentShapeInstance.updateStartPoint(this.startMouseDown);
+    this.globalDraw();
+    if(this.isMouseDown){
+      this.currentShapeInstance.drawPhantom(this.ctx);
+    }
   }
 
-  downloadCanvas() {
+  // Download current canvas to a new png file called "canvas"
+  public downloadCanvas() {
     const createEl = document.createElement('a');
     createEl.href = this.canvas.toDataURL();
     createEl.download = "canvas";
@@ -238,28 +237,31 @@ export class PainterService {
     createEl.remove();
   }
 
-  uploadCanvas(e:any) {
-    this.clearScreen()
-    let reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+  public uploadCanvas(readerEvent:any) {
+    this.clearScreen();
 
+    // Reading a file to be loaded
+    let reader = new FileReader();
+    reader.readAsDataURL(readerEvent.target.files[0]);
+
+    // Draw loaded file on canvas
     reader.onload = readerEvent => {
       let content = readerEvent.target.result.toString();
       this.loadCanvas = new Image;
       this.loadCanvas.src = content;
-      this.loadCanvas.onload= e=> this.ctx.drawImage(this.loadCanvas,0,0);
+      this.loadCanvas.onload = loadEvent => this.ctx.drawImage(this.loadCanvas,0,0);
    }
   }
 
-  private getMousePos(e: MouseEvent) {
+  private getMousePos(mouseEvent: MouseEvent) {
     let rect = this.canvas.getBoundingClientRect();
     return {
-      x: (e.clientX - rect.left) / (rect.right - rect.left) * this.canvas.width,
-      y: (e.clientY - rect.top) / (rect.bottom - rect.top) * this.canvas.height
+      x: (mouseEvent.clientX - rect.left) / (rect.right - rect.left) * this.canvas.width,
+      y: (mouseEvent.clientY - rect.top) / (rect.bottom - rect.top) * this.canvas.height
     }
   }
 
-  getCurrentShape() {
+  public getCurrentShape() {
     return this.currentShapeInstance;
   }
 

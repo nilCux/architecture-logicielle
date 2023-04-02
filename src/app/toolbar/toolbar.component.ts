@@ -22,13 +22,12 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  changeShape(shape: string) {
+  public changeShape(shape: string) {
     this.shapeManager.setCurrentShape(shape);
   }
   
-  public onTextChange(event: Event): void {
-    console.log(event.target);
-    const value = (event.target as any).value != ""?(event.target as any).value:"Please enter text";
+  public onTextChange(inputEvent: Event): void {
+    const value = (inputEvent.target as any).value != ""?(inputEvent.target as any).value:"Please enter text";
     this.shapeManager.setText(value);
   }
 
@@ -60,16 +59,17 @@ export class ToolbarComponent implements OnInit {
     return this.shapeManager.getCurrentShape() instanceof Arrow;
   }
 
-  changeFill() {
+  public changeFill() {
     this.isFill = !this.isFill;
     this.shapeManager.setFill(this.isFill);
   }
 
-  isFillSelected() {
+  public isFillSelected() {
     return this.shapeManager.getFill()
   }  
 
-  isNotFillable() {
+  // Arrow and Line shapes are not fillable
+  public isNotFillable() {
     return this.shapeManager.getCurrentShape() instanceof Line || this.shapeManager.getCurrentShape() instanceof Arrow;
   }
 

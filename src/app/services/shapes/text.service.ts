@@ -7,21 +7,20 @@ import { Shape } from '../shape.service';
 export class Text extends Shape {
 
   private setTextParameters(ctx: CanvasRenderingContext2D){
-    if (this.p2.x - this.p1.x < 0){
+    if (this.endPoint.x - this.startPoint.x < 0){
       ctx.direction = "rtl";
     } else {
       ctx.direction = "ltr";
     }
-    if (this.p2.y - this.p1.y < 0){
+    if (this.endPoint.y - this.startPoint.y < 0){
       ctx.textBaseline = "bottom"
     } else {
       ctx.textBaseline = "top"
     }
   }
 
-  override drawSelf(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-    console.log("je me draw moi meme, je suis un bout de texte")
-    let fontheight = Math.floor(Math.abs(this.p2.y - this.p1.y));
+  override drawSelf(ctx: CanvasRenderingContext2D) {    
+    let fontheight = Math.floor(Math.abs(this.endPoint.y - this.startPoint.y));
     ctx.font = `${fontheight}px serif`;
     this.setTextParameters(ctx);
     ctx.lineWidth = this.properties.getWidth();
@@ -46,7 +45,7 @@ export class Text extends Shape {
         let tmpline = line + ((line == "")?"":" ") + wordArray[i][j];
         words_stacked += 1;
         // If line overflows, push the line to the output buffer
-        if(ctx.measureText(tmpline).width > Math.abs(this.p2.x - this.p1.x)){
+        if(ctx.measureText(tmpline).width > Math.abs(this.endPoint.x - this.startPoint.x)){
           if (words_stacked > 1){
             linesArray.push(line);
             line = wordArray[i][j];
@@ -67,16 +66,16 @@ export class Text extends Shape {
       }
     }
     for(let i = 0; i < linesArray.length; i++){
-      ctx.strokeText(linesArray[i], this.p1.x, this.p1.y  + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
+      ctx.strokeText(linesArray[i], this.startPoint.x, this.startPoint.y  + ((this.endPoint.y > this.startPoint.y)?i:-(linesArray.length - i - 1)) * fontheight);
       if(this.properties.getFill()){
         ctx.fillStyle = this.properties.getBackgroundColor();
-        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
+        ctx.fillText(linesArray[i], this.startPoint.x, this.startPoint.y + ((this.endPoint.y > this.startPoint.y)?i:-(linesArray.length - i - 1)) * fontheight);
       }
     }
   }
 
-  override drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
-    let fontheight = Math.floor(Math.abs(this.p2.y - this.p1.y));
+  override drawPhantom(ctx: CanvasRenderingContext2D): void {
+    let fontheight = Math.floor(Math.abs(this.endPoint.y - this.startPoint.y));
     ctx.font = `${fontheight}px serif`;
     this.setTextParameters(ctx);
     ctx.lineWidth = this.properties.getWidth();
@@ -101,7 +100,7 @@ export class Text extends Shape {
         let tmpline = line + ((line == "")?"":" ") + wordArray[i][j];
         words_stacked += 1;
         // If line overflows, push the line to the output buffer
-        if(ctx.measureText(tmpline).width > Math.abs(this.p2.x - this.p1.x)){
+        if(ctx.measureText(tmpline).width > Math.abs(this.endPoint.x - this.startPoint.x)){
           if (words_stacked > 1){
             linesArray.push(line);
             line = wordArray[i][j];
@@ -122,15 +121,15 @@ export class Text extends Shape {
       }
     }
     for(let i = 0; i < linesArray.length; i++){
-      ctx.strokeText(linesArray[i], this.p1.x, this.p1.y  + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
+      ctx.strokeText(linesArray[i], this.startPoint.x, this.startPoint.y  + ((this.endPoint.y > this.startPoint.y)?i:-(linesArray.length - i - 1)) * fontheight);
       if(this.properties.getFill()){
         ctx.fillStyle = this.properties.getBackgroundColor();
-        ctx.fillText(linesArray[i], this.p1.x, this.p1.y + ((this.p2.y > this.p1.y)?i:-(linesArray.length - i - 1)) * fontheight);
+        ctx.fillText(linesArray[i], this.startPoint.x, this.startPoint.y + ((this.endPoint.y > this.startPoint.y)?i:-(linesArray.length - i - 1)) * fontheight);
       }
     }
     ctx.beginPath();
     ctx.setLineDash([5]);
-    ctx.rect(this.p1.x, this.p1.y, this.p2.x - this.p1.x, this.p2.y - this.p1.y);
+    ctx.rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
     ctx.stroke();
     ctx.setLineDash([]);
   }

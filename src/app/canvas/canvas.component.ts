@@ -1,16 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { PainterService } from '../services/painter.service';
 
-type Point = {
-  x: number;
-  y: number;
-}
-
-type Line = {
-  p1: Point;
-  p2: Point;
-}
-
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -18,8 +8,8 @@ type Line = {
 })
 export class CanvasComponent implements OnInit {
 
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
 
   constructor(private shapeManager: PainterService) { }
 
@@ -30,52 +20,47 @@ export class CanvasComponent implements OnInit {
   }
 
 
-  onDown(e: MouseEvent) {
-    this.shapeManager.onDown(e);
+  public onDown(mouseEvent: MouseEvent) {
+    this.shapeManager.onDown(mouseEvent);
   }
 
-  onUp(e: MouseEvent) {
-    this.shapeManager.onUp(e);
+  public onUp(mouseEvent: MouseEvent) {
+    this.shapeManager.onUp(mouseEvent);
   }
 
-  clearScreen() {
+  public clearScreen() {
     this.shapeManager.clearScreen();
   }
 
-  onMouseMove(e) {
-    this.shapeManager.onMouseMove(e);
+  public onMouseMove(mouseEvent: MouseEvent) {
+    this.shapeManager.onMouseMove(mouseEvent);
   }
 
-  mouseOut(e: MouseEvent) {
-    this.shapeManager.mouseOut(e);
+  public mouseOut(mouseEvent: MouseEvent) {
+    this.shapeManager.mouseOut(mouseEvent);
   }
 
   @HostListener('document:keydown.control.z', ['$event'])
-  undoLast() {
+  public undoLast() {
     this.shapeManager.undoLast();
   }
 
   @HostListener('document:keydown.control.y', ['$event'])
-  redoLast() {
+  public redoLast() {
     this.shapeManager.redoLast();
   }
 
   @HostListener('document:keydown.alt', ['$event'])
-  altDown(event: KeyboardEvent) {
-	event.preventDefault();
-	event.stopPropagation();
-	this.shapeManager.altDown();
+  public altDown(keyboardEvent: KeyboardEvent) {
+    keyboardEvent.preventDefault();
+    keyboardEvent.stopPropagation();
+    this.shapeManager.altDown();
   }
 
   @HostListener('document:keyup.alt', ['$event'])
-  altUp(event: KeyboardEvent) {
-	event.preventDefault();
-	event.stopPropagation();
-	this.shapeManager.altUp();
+  public altUp(keyboardEvent: KeyboardEvent) {
+    keyboardEvent.preventDefault();
+    keyboardEvent.stopPropagation();
+    this.shapeManager.altUp();
   }
-
-  dummy() {
-    console.log("HELLO")
-  }
-
 }

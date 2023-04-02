@@ -5,25 +5,26 @@ import { Shape } from '../shape.service';
   providedIn: 'root'
 })
 export class Arrow extends Shape {
-  drawSelf(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+  
+  drawSelf(ctx: CanvasRenderingContext2D): void {    
     ctx.setLineDash([]);
     ctx.lineWidth = this.properties.getWidth();
     ctx.strokeStyle = this.properties.getColor().toString();
-    this.drawAnArrow(ctx, this.p1, this.p2, 5*this.properties.getWidth());
+    this.drawAnArrow(ctx, this.startPoint, this.endPoint, 5*this.properties.getWidth());
   }
 
-  drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+  drawPhantom(ctx: CanvasRenderingContext2D): void {
     ctx.setLineDash([5]);
-    this.drawAnArrow(ctx, this.p1, this.p2, 5*this.properties.getWidth());
+    this.drawAnArrow(ctx, this.startPoint, this.endPoint, 5*this.properties.getWidth());
   }
 
-  drawAnArrow(ctx: CanvasRenderingContext2D, p1: { x: number; y: number; }, p2: { x: number; y: number; }, size: number) {
-    const dx = p2.x - p1.x;
-    const dy = p2.y - p1.y;
+  drawAnArrow(ctx: CanvasRenderingContext2D, startPoint: { x: number; y: number; }, endPoint: { x: number; y: number; }, size: number) {
+    const dx = endPoint.x - startPoint.x;
+    const dy = endPoint.y - startPoint.y;
     const angle = Math.atan2(dy, dx);
     
     ctx.save();
-    ctx.translate(p2.x, p2.y);
+    ctx.translate(endPoint.x, endPoint.y);
     ctx.rotate(angle);
     ctx.beginPath();
     
@@ -35,7 +36,7 @@ export class Arrow extends Shape {
     
     ctx.moveTo(0, 0);
     ctx.restore();
-    ctx.lineTo(p1.x, p1.y);
+    ctx.lineTo(startPoint.x, startPoint.y);
     ctx.closePath();
 
     ctx.stroke();
