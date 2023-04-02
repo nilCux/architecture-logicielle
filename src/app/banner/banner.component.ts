@@ -13,19 +13,19 @@ export class BannerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  undoLast() {
+  public undoLast() {
     this.shapeManager.undoLast();
   }
 
-  redoLast() {
+  public redoLast() {
     this.shapeManager.redoLast();
   }
 
-  downloadCanvas() {
+  public downloadCanvas() {
     this.shapeManager.downloadCanvas();
   }
 
-  uploadCanvas(e:any) {
-    this.shapeManager.uploadCanvas(e);
+  public uploadCanvas(readerEvent:any) {
+    this.shapeManager.uploadCanvas(readerEvent);
   }
 }

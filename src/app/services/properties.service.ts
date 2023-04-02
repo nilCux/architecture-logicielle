@@ -5,41 +5,51 @@ import { Injectable } from '@angular/core';
 })
 export class Properties {
 
-  private color: string
-  private backgroundColor: string
-  private width: number
-  private text: string = "Please enter text"
-  private isFill: boolean = false
+  private color: string;
+  private backgroundColor: string;
+  private width: number;
+  private text: string = "Please enter text";
+  private isFill: boolean = false;
 
   constructor() {}
 
-  updateColor(color: string) {
+  public updateColor(color: string) {
     this.color = color;
   }
 
-  getColor() { return this.color; }
+  public getColor() { 
+    return this.color; 
+  }
 
-  updateBackgroundColor(color: string) {
+  public updateBackgroundColor(color: string) {
     this.backgroundColor = color;
   }
 
-  getBackgroundColor() { return this.backgroundColor; }
+  public getBackgroundColor() { 
+    return this.backgroundColor; 
+  }
 
-  updateWidth(width: number) {
+  public updateWidth(width: number) {
     this.width = width;
   }
 
-  getWidth() { return this.width; }
+  public getWidth() { 
+    return this.width; 
+  }
 
-  updateText(text: string) {
+  public updateText(text: string) {
     this.text = text;
   }
 
-  getText() { return this.text; }
+  public getText() { 
+    return this.text; 
+  }
 
-  updateFill(fill: boolean) {
+  public updateFill(fill: boolean) {
     this.isFill = fill;
   }
 
-  getFill() { return this.isFill; }
+  public getFill() { 
+    return this.isFill; 
+  }
 }

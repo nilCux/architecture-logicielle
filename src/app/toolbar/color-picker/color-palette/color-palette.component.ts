@@ -7,9 +7,12 @@ import { PainterService } from '../../../services/painter.service';
   styleUrls: ['./color-palette.component.sass']
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
+
+  // Hue received from the color slider
   @Input()
   hue: string;
 
+  // Indicates if the color correspond to border or background
   @Input()
   isColorBackground: boolean;
 
@@ -17,7 +20,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean = false;
   private color: string;
-  public selectedPosition: {x: number; y: number};
+  private selectedPosition: {x: number; y: number};
 
   constructor(private shapeManager: PainterService) { this.color = 'rgba(0,19,255,1)'; }
 
@@ -29,12 +32,14 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.draw();
   }
 
-  draw() {
+  // Draw color palette
+  private draw() {
     const selectColorHeight = 10;
 
     this.ctx.fillStyle = this.hue;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // White gradient
     const whiteGrad = this.ctx.createLinearGradient(0, 0, this.canvas.width, 0);
     whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
     whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
@@ -42,6 +47,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fillStyle = whiteGrad;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // Black gradient
     const blackGrad = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
     blackGrad.addColorStop(0, 'rgba(0,0,0,0)');
     blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
@@ -49,6 +55,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fillStyle = blackGrad;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // Draw the color selection circle
     if (this.selectedPosition) {
       this.ctx.strokeStyle = 'white';
       this.ctx.beginPath();
@@ -58,7 +65,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges) {
     if (changes['hue'] && this.hue) {
       this.draw();
       const pos = this.selectedPosition;
@@ -69,7 +76,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  public onMouseUp(mouseEvent: MouseEvent) {
     this.mousedown = false;
     if( this.isColorBackground ) {
       this.shapeManager.setBackgroundColor(this.color)
@@ -79,23 +86,23 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     
   }
 
-  onMouseDown(evt: MouseEvent) {
+  public onMouseDown(mouseEvent: MouseEvent) {
     this.mousedown = true;
-    this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
+    this.selectedPosition = { x: mouseEvent.offsetX, y: mouseEvent.offsetY };
     this.draw();
-    this.color = this.getColorAtPosition(evt.offsetX, evt.offsetY);
+    this.color = this.getColorAtPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
   }
 
-  onMouseMove(evt: MouseEvent) {
+  public onMouseMove(mouseEvent: MouseEvent) {
     if (this.mousedown) {
-      this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
+      this.selectedPosition = { x: mouseEvent.offsetX, y: mouseEvent.offsetY };
       this.draw();
-      this.color = this.getColorAtPosition(evt.offsetX, evt.offsetY);
+      this.color = this.getColorAtPosition(mouseEvent.offsetX, mouseEvent.offsetY);
     }
   }
 
-  getColorAtPosition(x: number, y: number) {
+  private getColorAtPosition(x: number, y: number) {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
     return 'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)';
   }

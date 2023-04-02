@@ -111,12 +111,12 @@
             <i *ngIf="!isFillSelected()" class="bi bi-triangle"></i>
             <i *ngIf="isFillSelected()" class="bi bi-triangle-fill"></i>
           </button>
-          <!-- Hexagon -->
+          <!-- Fill Hexagon -->
           <button *ngIf="isHexagonSelected()" type="button" class="btn" (click)="changeFill()">
             <i *ngIf="!isFillSelected()" class="bi bi-hexagon"></i>
             <i *ngIf="isFillSelected()" class="bi bi-hexagon-fill"></i>
           </button>
-          <!-- Text -->
+          <!-- Fill Text -->
           <button *ngIf="isTextSelected()" type="button" class="btn" (click)="changeFill()">
             <i *ngIf="!isFillSelected()" class="bi bi-file-font"></i>
             <i *ngIf="isFillSelected()" class="bi bi-file-font-fill"></i>
@@ -127,10 +127,12 @@
   </div>
 </div>
   
+<!-- Text area -->
 <div class="center">
   <textarea class="form-control mt-2" (input)="onTextChange($event)" *ngIf="isTextSelected()" placeholder="Please enter text"></textarea>
 </div>
 
+<!-- Width slider -->
 <div class="center mt-4">
   <p class="lead">Width</p>
 </div>
@@ -138,6 +140,7 @@
   <app-width-slider></app-width-slider>
 </div>
 
+<!-- Color picker -->
 <div class="center">
   <p class="lead">Color</p>
 </div>

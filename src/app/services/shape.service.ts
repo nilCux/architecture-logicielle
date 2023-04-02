@@ -6,33 +6,26 @@ import { Properties } from './properties.service'
   providedIn: 'root'
 })
 export abstract class Shape {
-  public properties: Properties
-  protected p1: Point
-  protected p2: Point
 
-  constructor(p1:Point, p2:Point, properties: Properties) {
-    this.p1 = p1
-    this.p2 = p2
-    this.properties = properties
+  public properties: Properties;
+  protected startPoint: Point;
+  protected endPoint: Point;
+
+  constructor(startPoint:Point, endPoint:Point, properties: Properties) {
+    this.startPoint = startPoint;
+    this.endPoint = endPoint;
+    this.properties = properties;
   }
 
-  updateStartPoint(p: Point) {
-    this.p1 = p
+  public updateStartPoint(startPoint: Point) {
+    this.startPoint = startPoint;
   }
 
-  updateEndPoint(p: Point) {
-    this.p2 = p
-  }
-
-  getStartPoint() {
-    return this.p1
-  }
-
-  getEndPoint() {
-    return this.p2
+  public updateEndPoint(endPoint: Point) {
+    this.endPoint = endPoint;
   }
   
-  abstract drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D): void
+  abstract drawSelf(ctx: CanvasRenderingContext2D): void
 
-  abstract drawPhantom(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D): void
+  abstract drawPhantom(ctx: CanvasRenderingContext2D): void
 }

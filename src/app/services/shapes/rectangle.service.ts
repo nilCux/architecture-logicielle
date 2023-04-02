@@ -6,29 +6,28 @@ import { Shape } from '../shape.service';
 })
 export class Rectangle extends Shape {
 
-  override drawSelf(canvas: HTMLCanvasElement,ctx: CanvasRenderingContext2D) {
-
-    console.log("je me draw moi meme, je suis un rectangle")    
-    let width = this.p2.x - this.p1.x;
-    let height = this.p2.y - this.p1.y;
+  override drawSelf(ctx: CanvasRenderingContext2D) {
+    let width = this.endPoint.x - this.startPoint.x;
+    let height = this.endPoint.y - this.startPoint.y;
     ctx.beginPath();
     ctx.setLineDash([]);
-    ctx.rect(this.p1.x, this.p1.y, width, height);
+    ctx.rect(this.startPoint.x, this.startPoint.y, width, height);
     ctx.lineWidth = this.properties.getWidth();
     ctx.strokeStyle = this.properties.getColor();
     ctx.stroke();
+    
     if(this.properties.getFill()){
       ctx.fillStyle = this.properties.getBackgroundColor();
       ctx.fill();
     }
   }
 
-  override drawPhantom(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+  override drawPhantom(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.setLineDash([5]);
-    let width = this.p2.x - this.p1.x;
-    let height = this.p2.y - this.p1.y;
-    ctx.rect(this.p1.x, this.p1.y, width, height);
+    let width = this.endPoint.x - this.startPoint.x;
+    let height = this.endPoint.y - this.startPoint.y;
+    ctx.rect(this.startPoint.x, this.startPoint.y, width, height);
     ctx.stroke();
   }
 }
