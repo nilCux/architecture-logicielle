@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
+/** A plain data transfer object that encapsulates the properties of a shape. */
 export class Properties {
 
   private color: string;
