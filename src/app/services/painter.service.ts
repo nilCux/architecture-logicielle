@@ -89,6 +89,11 @@ export class PainterService {
     return this.propertiesService.getFill();
   }
 
+  /**
+   * Create and set current shape instance based on the input string. Bound to the selection of shapes.
+   * 
+   * @param shape The type of the shape instance
+   */
   public setCurrentShape(shape: string) {
     switch (shape) {
       case "line":
@@ -119,6 +124,10 @@ export class PainterService {
     console.log("Changing text to " + this.propertiesService.getText());
   }
 
+  /**
+   * Updates cursor position for the current shape instance.
+   * @param mouseEvent 
+   */
   public onDown(mouseEvent: MouseEvent) {
     this.isMouseDown = true;
 
@@ -142,6 +151,10 @@ export class PainterService {
     });
   }
 
+  /**
+   * Push a copy of the current shape instance into the global unique shape stack. Then paint all shapes in the stack.
+   * @param mouseEvent 
+   */
   public onUp(mouseEvent: MouseEvent) {
     if (this.isMouseDown) {
       this.isMouseDown = false;
@@ -156,6 +169,10 @@ export class PainterService {
     this.loadCanvas = undefined;
   }
 
+  /**
+   * Update cursor position and paint the phantom of the current shape instance.
+   * @param e 
+   */
   public onMouseMove(e: MouseEvent) {
     if (this.isMouseDown) {
       // Draw old lines when tracing
@@ -181,6 +198,7 @@ export class PainterService {
     }
   }
 
+  /** Trigger the mouse button releasing event. */
   public mouseOut(mouseEvent: MouseEvent) {
     if (this.isMouseDown) {
       this.onUp(mouseEvent);
@@ -203,6 +221,7 @@ export class PainterService {
     }
   }
 
+  /** When alt-button is pressed, adjust the shape size on both sides instead of a single side of the shape. */
   public altDown() {
     this.isAltPressed = true;
     const offset = {

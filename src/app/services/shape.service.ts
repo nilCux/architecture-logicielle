@@ -5,6 +5,8 @@ import { Properties } from './properties.service'
 @Injectable({
   providedIn: 'root'
 })
+
+/** Shape is the root object of any paintable object. */
 export abstract class Shape {
 
   public properties: Properties;
