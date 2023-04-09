@@ -1,0 +1,15 @@
+<div class="btn-group-horizontal "style="flex-direction: row" role="group">
+  <div class=color-wrapper>
+    
+    <app-color-palette [isColorBackground]="isColorBackground" [hue]="hue" ></app-color-palette>
+    <div class="btn-group btn-group-toggle center" data-toggle="buttons" *ngIf="isFill()">
+      <button type="button" class="btn btn-outline-secondary" [ngClass]="!isColorBackground ? 'active':''" (click)="isColorBackground = false">
+        Border
+      </button>
+      <button type="button" class="btn btn-outline-secondary" [ngClass]="isColorBackground ? 'active':''" (click)="isColorBackground = true">
+        Back
+      </button>
+    </div>
+    <app-color-slider (color)="hue=$event"></app-color-slider>
+  </div>
+</div>
